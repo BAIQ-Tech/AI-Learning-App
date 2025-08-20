@@ -1,0 +1,136 @@
+{
+  "app": {
+    "title": "Apprentissage IA",
+    "welcome": "Bienvenue dans Apprentissage IA",
+    "subtitle": "Maîtrisez de nouvelles langues avec des conversations alimentées par l'IA, des leçons interactives et des outils de traduction intelligents. Choisissez votre langue cible pour commencer !"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "chat": "Chat",
+    "voice": "Voix",
+    "games": "Jeux",
+    "translate": "Traduire",
+    "lessons": "Leçons",
+    "news": "Actualités"
+  },
+  "home": {
+    "readyToLearn": "Prêt à apprendre le {{language}} !",
+    "description": "Utilisez la navigation ci-dessus pour commencer à discuter avec votre tuteur IA, pratiquer des conversations vocales, jouer à des jeux de langue, traduire du texte ou explorer des leçons interactives."
+  },
+  "chat": {
+    "title": "Tuteur de Langue IA",
+    "selectLanguage": "Veuillez sélectionner une langue pour commencer à discuter avec votre tuteur IA :",
+    "practice": "Pratiquez le {{language}} avec votre tuteur IA",
+    "placeholder": "Tapez votre message ici...",
+    "send": "Envoyer",
+    "welcome": "Bonjour ! Je suis votre tuteur de langue IA. Commencez une conversation et je vous aiderai à pratiquer !"
+  },
+  "voice": {
+    "title": "Pratique de Conversation Vocale",
+    "selectLanguage": "Veuillez sélectionner une langue pour la pratique de conversation vocale :",
+    "startRecording": "Commencer l'enregistrement",
+    "stopRecording": "Arrêter l'enregistrement",
+    "processing": "Traitement de l'audio...",
+    "welcome": "Cliquez sur le bouton microphone pour commencer une conversation !",
+    "description": "L'IA répondra dans la langue sélectionnée et soutiendra votre pratique de prononciation.",
+    "clearConversation": "Effacer la conversation",
+    "replay": "Rejouer l'audio"
+  },
+  "games": {
+    "title": "Jeux de Langue",
+    "selectLanguage": "Veuillez sélectionner une langue pour jouer aux jeux de langue :",
+    "selectGame": "Veuillez sélectionner un jeu",
+    "vocabularyQuiz": "Quiz de Vocabulaire",
+    "vocabularyQuizDesc": "Choisissez la signification des mots parmi les options à choix multiples",
+    "pronunciationPractice": "Pratique de Prononciation",
+    "pronunciationPracticeDesc": "Apprenez la prononciation correcte",
+    "wordMatch": "Association de Mots",
+    "wordMatchDesc": "Associez les mots à leurs significations",
+    "difficulty": "Niveau de difficulté :",
+    "easy": "Facile",
+    "medium": "Moyen",
+    "hard": "Difficile",
+    "startGame": "Commencer le jeu",
+    "generating": "Génération du jeu...",
+    "back": "Retour",
+    "exitGame": "Quitter le jeu",
+    "gameCompleted": "Jeu terminé !",
+    "playAgain": "Rejouer",
+    "score": "Score",
+    "question": "Question",
+    "explanation": "Explication :",
+    "listenPronunciation": "Écouter la prononciation",
+    "matchedPairs": "Paires associées"
+  },
+  "translate": {
+    "title": "Outil de Traduction",
+    "sourceLanguage": "Langue source",
+    "targetLanguage": "Langue cible",
+    "enterText": "Entrez le texte à traduire...",
+    "translate": "Traduire",
+    "translating": "Traduction en cours...",
+    "translation": "Traduction"
+  },
+  "lessons": {
+    "title": "Leçons Interactives",
+    "selectLanguage": "Veuillez sélectionner une langue pour générer des leçons :",
+    "learn": "Apprenez le {{language}} avec des leçons générées par l'IA",
+    "level": "Niveau :",
+    "beginner": "Débutant",
+    "intermediate": "Intermédiaire",
+    "advanced": "Avancé",
+    "topic": "Sujet (optionnel) :",
+    "generateLesson": "Générer une leçon",
+    "generating": "Génération de la leçon..."
+  },
+  "news": {
+    "title": "Actualités Quotidiennes",
+    "refresh": "Actualiser",
+    "readMore": "Lire Plus",
+    "justNow": "À l'instant",
+    "hoursAgo": "Il y a {{hours}}h",
+    "daysAgo": "Il y a {{days}}j"
+  },
+  "auth": {
+    "signIn": "Se Connecter",
+    "signOut": "Se Déconnecter",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "emailPlaceholder": "Entrez votre e-mail",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "signInWithEmail": "Se connecter avec e-mail",
+    "orContinueWith": "ou continuer avec",
+    "continueWithGoogle": "Continuer avec Google",
+    "continueWithApple": "Continuer avec Apple",
+    "web3Wallets": "Portefeuilles Web3",
+    "connectMetaMask": "Connecter MetaMask",
+    "connectCoinbase": "Connecter Coinbase Wallet",
+    "connectPhantom": "Connecter Phantom",
+    "loginFailed": "Connexion échouée. Veuillez réessayer.",
+    "emailPasswordRequired": "L'e-mail et le mot de passe sont requis",
+    "welcome": "Bienvenue, {{name}} !",
+    "profile": "Profil"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "retry": "Réessayer",
+    "cancel": "Annuler",
+    "save": "Sauvegarder",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "selectLanguage": "Sélectionner la langue"
+  },
+  "languages": {
+    "en": "Anglais",
+    "ja": "Japonais",
+    "zh": "Chinois",
+    "es": "Espagnol",
+    "el": "Grec",
+    "he": "Hébreu",
+    "de": "Allemand",
+    "fr": "Français",
+    "it": "Italien"
+  }
+}

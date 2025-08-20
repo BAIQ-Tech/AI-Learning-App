@@ -1,0 +1,482 @@
+.language-games {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  color: white;
+  min-height: 600px;
+}
+
+.games-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.games-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* Game Selection */
+.game-selection {
+  text-align: center;
+}
+
+.game-selection h3 {
+  margin-bottom: 30px;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.game-types {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.game-type-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 2px solid transparent;
+}
+
+.game-type-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.game-type-card h4 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+}
+
+.game-type-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+}
+
+/* Game Setup */
+.game-setup {
+  text-align: center;
+  padding: 40px;
+}
+
+.game-setup h3 {
+  margin-bottom: 30px;
+  font-size: 22px;
+}
+
+.difficulty-selection {
+  margin: 30px 0;
+}
+
+.difficulty-selection label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.difficulty-selection select {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 14px;
+  min-width: 150px;
+}
+
+.setup-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.start-btn, .back-btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.start-btn {
+  background: linear-gradient(45deg, #00b894, #00cec9);
+  color: white;
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 184, 148, 0.4);
+}
+
+.start-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Quiz Game */
+.quiz-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.quiz-header h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.progress, .score {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.question-container h4 {
+  font-size: 18px;
+  margin-bottom: 25px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.option {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.option:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.option.correct {
+  background: rgba(0, 184, 148, 0.8);
+  border-color: #00b894;
+}
+
+.option.incorrect {
+  background: rgba(231, 76, 60, 0.8);
+  border-color: #e74c3c;
+}
+
+.explanation {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+  border-left: 4px solid #00b894;
+}
+
+/* Pronunciation Practice */
+.pronunciation-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+}
+
+.pronunciation-container h3 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 22px;
+}
+
+.phrases-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.phrase-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.phrase-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+}
+
+.phrase-text {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.phonetic {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.difficulty-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.tip {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
+.practice-btn {
+  background: linear-gradient(45deg, #fd79a8, #e84393);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.practice-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(232, 67, 147, 0.4);
+}
+
+/* Word Match Game */
+.word-match-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+}
+
+.word-match-container h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.match-score {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.match-card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 20px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.match-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
+}
+
+.match-card.selected {
+  background: rgba(255, 193, 7, 0.8);
+  border-color: #ffc107;
+  transform: scale(1.05);
+}
+
+.match-card.matched {
+  background: rgba(0, 184, 148, 0.8);
+  border-color: #00b894;
+  cursor: not-allowed;
+}
+
+/* Game Completed */
+.game-completed {
+  text-align: center;
+  padding: 40px;
+}
+
+.game-completed h3 {
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+
+.final-score {
+  margin: 30px 0;
+}
+
+.score-circle {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.score-number {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.score-total {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.percentage {
+  font-size: 24px;
+  font-weight: 600;
+  color: #00b894;
+}
+
+.play-again-btn {
+  background: linear-gradient(45deg, #00b894, #00cec9);
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.play-again-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 184, 148, 0.4);
+}
+
+.exit-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+.exit-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .language-games {
+    margin: 10px;
+    padding: 15px;
+  }
+  
+  .game-types {
+    grid-template-columns: 1fr;
+  }
+  
+  .quiz-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .options {
+    grid-template-columns: 1fr;
+  }
+  
+  .phrases-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .cards-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  
+  .match-card {
+    padding: 15px 8px;
+    font-size: 12px;
+    min-height: 50px;
+  }
+  
+  .score-circle {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .score-number {
+    font-size: 24px;
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "app": {
+    "title": "Apprendimento IA",
+    "welcome": "Benvenuti in Apprendimento IA",
+    "subtitle": "Padroneggia nuove lingue con conversazioni alimentate dall'IA, lezioni interattive e strumenti di traduzione intelligenti. Scegli la tua lingua di destinazione per iniziare!"
+  },
+  "navigation": {
+    "home": "Home",
+    "chat": "Chat",
+    "voice": "Voce",
+    "games": "Giochi",
+    "translate": "Traduci",
+    "lessons": "Lezioni",
+    "news": "Notizie"
+  },
+  "home": {
+    "readyToLearn": "Pronto per imparare {{language}}!",
+    "description": "Usa la navigazione sopra per iniziare a chattare con il tuo tutor IA, praticare conversazioni vocali, giocare a giochi linguistici, tradurre testo o esplorare lezioni interattive."
+  },
+  "chat": {
+    "title": "Tutor Linguistico IA",
+    "selectLanguage": "Seleziona una lingua per iniziare a chattare con il tuo tutor IA:",
+    "practice": "Pratica {{language}} con il tuo tutor IA",
+    "placeholder": "Digita il tuo messaggio qui...",
+    "send": "Invia",
+    "welcome": "Ciao! Sono il tuo tutor linguistico IA. Inizia una conversazione e ti aiuterò a praticare!"
+  },
+  "voice": {
+    "title": "Pratica di Conversazione Vocale",
+    "selectLanguage": "Seleziona una lingua per la pratica di conversazione vocale:",
+    "startRecording": "Inizia registrazione",
+    "stopRecording": "Ferma registrazione",
+    "processing": "Elaborazione audio...",
+    "welcome": "Clicca il pulsante microfono per iniziare una conversazione!",
+    "description": "L'IA risponderà nella lingua selezionata e supporterà la tua pratica di pronuncia.",
+    "clearConversation": "Cancella conversazione",
+    "replay": "Riproduci audio"
+  },
+  "games": {
+    "title": "Giochi Linguistici",
+    "selectLanguage": "Seleziona una lingua per giocare ai giochi linguistici:",
+    "selectGame": "Seleziona un gioco",
+    "vocabularyQuiz": "Quiz Vocabolario",
+    "vocabularyQuizDesc": "Scegli il significato delle parole dalle opzioni a scelta multipla",
+    "pronunciationPractice": "Pratica Pronuncia",
+    "pronunciationPracticeDesc": "Impara la pronuncia corretta",
+    "wordMatch": "Abbinamento Parole",
+    "wordMatchDesc": "Abbina le parole ai loro significati",
+    "difficulty": "Livello di difficoltà:",
+    "easy": "Facile",
+    "medium": "Medio",
+    "hard": "Difficile",
+    "startGame": "Inizia gioco",
+    "generating": "Generazione gioco...",
+    "back": "Indietro",
+    "exitGame": "Esci dal gioco",
+    "gameCompleted": "Gioco completato!",
+    "playAgain": "Gioca ancora",
+    "score": "Punteggio",
+    "question": "Domanda",
+    "explanation": "Spiegazione:",
+    "listenPronunciation": "Ascolta pronuncia",
+    "matchedPairs": "Coppie abbinate"
+  },
+  "translate": {
+    "title": "Strumento di Traduzione",
+    "sourceLanguage": "Lingua di origine",
+    "targetLanguage": "Lingua di destinazione",
+    "enterText": "Inserisci testo da tradurre...",
+    "translate": "Traduci",
+    "translating": "Traduzione in corso...",
+    "translation": "Traduzione"
+  },
+  "lessons": {
+    "title": "Lezioni Interattive",
+    "selectLanguage": "Seleziona una lingua per generare lezioni:",
+    "learn": "Impara {{language}} con lezioni generate dall'IA",
+    "level": "Livello:",
+    "beginner": "Principiante",
+    "intermediate": "Intermedio",
+    "advanced": "Avanzato",
+    "topic": "Argomento (opzionale):",
+    "generateLesson": "Genera lezione",
+    "generating": "Generazione lezione..."
+  },
+  "news": {
+    "title": "Notizie Quotidiane",
+    "refresh": "Aggiorna",
+    "readMore": "Leggi Di Più",
+    "justNow": "Proprio ora",
+    "hoursAgo": "{{hours}}h fa",
+    "daysAgo": "{{days}}g fa"
+  },
+  "auth": {
+    "signIn": "Accedi",
+    "signOut": "Esci",
+    "email": "Email",
+    "password": "Password",
+    "emailPlaceholder": "Inserisci la tua email",
+    "passwordPlaceholder": "Inserisci la tua password",
+    "signInWithEmail": "Accedi con Email",
+    "orContinueWith": "o continua con",
+    "continueWithGoogle": "Continua con Google",
+    "continueWithApple": "Continua con Apple",
+    "web3Wallets": "Portafogli Web3",
+    "connectMetaMask": "Connetti MetaMask",
+    "connectCoinbase": "Connetti Coinbase Wallet",
+    "connectPhantom": "Connetti Phantom",
+    "loginFailed": "Accesso fallito. Riprova.",
+    "emailPasswordRequired": "Email e password sono richiesti",
+    "welcome": "Benvenuto, {{name}}!",
+    "profile": "Profilo"
+  },
+  "common": {
+    "loading": "Caricamento...",
+    "error": "Si è verificato un errore",
+    "retry": "Riprova",
+    "cancel": "Annulla",
+    "save": "Salva",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "close": "Chiudi",
+    "selectLanguage": "Seleziona lingua"
+  },
+  "languages": {
+    "en": "Inglese",
+    "ja": "Giapponese",
+    "zh": "Cinese",
+    "es": "Spagnolo",
+    "el": "Greco",
+    "he": "Ebraico",
+    "de": "Tedesco",
+    "fr": "Francese",
+    "it": "Italiano"
+  }
+}

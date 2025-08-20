@@ -1,0 +1,135 @@
+{
+  "app": {
+    "title": "AI-למידה",
+    "welcome": "ברוכים הבאים ל-AI-למידה",
+    "subtitle": "שלטו בשפות חדשות עם שיחות מונעות בינה מלאכותית, שיעורים אינטראקטיביים וכלי תרגום חכמים. בחרו את שפת היעד שלכם כדי להתחיל!"
+  },
+  "navigation": {
+    "home": "בית",
+    "chat": "צ'אט",
+    "voice": "קול",
+    "games": "משחקים",
+    "translate": "תרגום",
+    "lessons": "שיעורים",
+    "news": "חדשות"
+  },
+  "home": {
+    "readyToLearn": "מוכנים ללמוד {{language}}!",
+    "description": "השתמשו בניווט למעלה כדי להתחיל לשוחח עם המורה הבינה מלאכותית שלכם, להתרגל בשיחות קוליות, לשחק משחקי שפה, לתרגם טקסט או לחקור שיעורים אינטראקטיביים."
+  },
+  "chat": {
+    "title": "מורה שפות בינה מלאכותית",
+    "selectLanguage": "אנא בחרו שפה כדי להתחיל לשוחח עם המורה הבינה מלאכותית שלכם:",
+    "practice": "התרגלו ב{{language}} עם המורה הבינה מלאכותית שלכם",
+    "placeholder": "הקלידו את ההודעה שלכם כאן...",
+    "send": "שלח"
+  },
+  "voice": {
+    "title": "תרגול שיחה קולית",
+    "selectLanguage": "אנא בחרו שפה כדי להתחיל תרגול שיחה קולית:",
+    "startRecording": "התחל הקלטה",
+    "stopRecording": "עצור הקלטה",
+    "processing": "מעבד אודיו...",
+    "welcome": "לחצו על כפתור המיקרופון כדי להתחיל שיחה!",
+    "description": "הבינה המלאכותית תגיב בשפה הנבחרת ותתמוך בתרגול ההגייה שלכם.",
+    "clearConversation": "נקה שיחה",
+    "replay": "השמע אודיו"
+  },
+  "games": {
+    "title": "משחקי שפה",
+    "selectLanguage": "אנא בחרו שפה כדי לשחק משחקי שפה:",
+    "selectGame": "אנא בחרו משחק",
+    "vocabularyQuiz": "חידון אוצר מילים",
+    "vocabularyQuizDesc": "בחרו את המשמעות של מילים מתוך אפשרויות מרובות",
+    "pronunciationPractice": "תרגול הגייה",
+    "pronunciationPracticeDesc": "למדו הגייה נכונה",
+    "wordMatch": "התאמת מילים",
+    "wordMatchDesc": "התאימו מילים למשמעויות שלהן",
+    "difficulty": "רמת קושי:",
+    "easy": "קל",
+    "medium": "בינוני",
+    "hard": "קשה",
+    "startGame": "התחל משחק",
+    "generating": "יוצר משחק...",
+    "back": "חזור",
+    "exitGame": "צא מהמשחק",
+    "gameCompleted": "המשחק הושלם!",
+    "playAgain": "שחק שוב",
+    "score": "ניקוד",
+    "question": "שאלה",
+    "explanation": "הסבר:",
+    "listenPronunciation": "האזינו להגייה",
+    "matchedPairs": "זוגות מותאמים"
+  },
+  "translate": {
+    "title": "כלי תרגום",
+    "sourceLanguage": "שפת מקור",
+    "targetLanguage": "שפת יעד",
+    "enterText": "הזינו טקסט לתרגום...",
+    "translate": "תרגם",
+    "translating": "מתרגם...",
+    "translation": "תרגום"
+  },
+  "lessons": {
+    "title": "שיעורים אינטראקטיביים",
+    "selectLanguage": "אנא בחרו שפה כדי ליצור שיעורים:",
+    "learn": "למדו {{language}} עם שיעורים שנוצרו על ידי בינה מלאכותית",
+    "level": "רמה:",
+    "beginner": "מתחיל",
+    "intermediate": "בינוני",
+    "advanced": "מתקדם",
+    "topic": "נושא (אופציונלי):",
+    "generateLesson": "צור שיעור",
+    "generating": "יוצר שיעור..."
+  },
+  "news": {
+    "title": "חדשות יומיות",
+    "refresh": "רענן",
+    "readMore": "קרא עוד",
+    "justNow": "כרגע",
+    "hoursAgo": "לפני {{hours}} שעות",
+    "daysAgo": "לפני {{days}} ימים"
+  },
+  "auth": {
+    "signIn": "התחברות",
+    "signOut": "התנתקות",
+    "email": "אימייל",
+    "password": "סיסמה",
+    "emailPlaceholder": "הכניסו את האימייל שלכם",
+    "passwordPlaceholder": "הכניסו את הסיסמה שלכם",
+    "signInWithEmail": "התחברות עם אימייל",
+    "orContinueWith": "או המשיכו עם",
+    "continueWithGoogle": "המשיכו עם Google",
+    "continueWithApple": "המשיכו עם Apple",
+    "web3Wallets": "ארנקי Web3",
+    "connectMetaMask": "התחברו ל-MetaMask",
+    "connectCoinbase": "התחברו ל-Coinbase Wallet",
+    "connectPhantom": "התחברו ל-Phantom",
+    "loginFailed": "התחברות נכשלה. נסו שוב.",
+    "emailPasswordRequired": "אימייל וסיסמה דרושים",
+    "welcome": "ברוכים הבאים, {{name}}!",
+    "profile": "פרופיל"
+  },
+  "common": {
+    "loading": "טוען...",
+    "error": "אירעה שגיאה",
+    "retry": "נסה שוב",
+    "cancel": "ביטול",
+    "save": "שמור",
+    "delete": "מחק",
+    "edit": "ערוך",
+    "close": "סגור",
+    "selectLanguage": "בחר שפה"
+  },
+  "languages": {
+    "en": "אנגלית",
+    "ja": "יפנית",
+    "zh": "סינית",
+    "es": "ספרדית",
+    "el": "יוונית",
+    "he": "עברית",
+    "de": "גרמנית",
+    "fr": "צרפתית",
+    "it": "איטלקית"
+  }
+}

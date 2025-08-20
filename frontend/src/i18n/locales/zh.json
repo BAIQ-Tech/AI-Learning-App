@@ -1,0 +1,135 @@
+{
+  "app": {
+    "title": "AI学习",
+    "welcome": "欢迎使用AI学习",
+    "subtitle": "通过AI驱动的对话、互动课程和智能翻译工具掌握新语言。选择您的目标语言开始学习！"
+  },
+  "navigation": {
+    "home": "首页",
+    "chat": "聊天",
+    "voice": "语音",
+    "games": "游戏",
+    "translate": "翻译",
+    "lessons": "课程",
+    "news": "新闻"
+  },
+  "home": {
+    "readyToLearn": "准备学习{{language}}！",
+    "description": "使用上方导航开始与AI导师聊天、练习语音对话、玩语言游戏、翻译文本或探索互动课程。"
+  },
+  "chat": {
+    "title": "AI语言导师",
+    "selectLanguage": "请选择一种语言开始与AI导师聊天：",
+    "practice": "与AI导师练习{{language}}",
+    "placeholder": "在此输入您的消息...",
+    "send": "发送"
+  },
+  "voice": {
+    "title": "语音对话练习",
+    "selectLanguage": "请选择一种语言开始语音对话练习：",
+    "startRecording": "开始录音",
+    "stopRecording": "停止录音",
+    "processing": "正在处理音频...",
+    "welcome": "按下麦克风按钮开始对话！",
+    "description": "AI将用所选语言回应并支持您的发音练习。",
+    "clearConversation": "清除对话",
+    "replay": "重播音频"
+  },
+  "games": {
+    "title": "语言游戏",
+    "selectLanguage": "请选择一种语言来玩语言游戏：",
+    "selectGame": "请选择一个游戏",
+    "vocabularyQuiz": "词汇测验",
+    "vocabularyQuizDesc": "从多个选项中选择单词的含义",
+    "pronunciationPractice": "发音练习",
+    "pronunciationPracticeDesc": "学习正确的发音",
+    "wordMatch": "单词匹配",
+    "wordMatchDesc": "将单词与其含义匹配",
+    "difficulty": "难度：",
+    "easy": "简单",
+    "medium": "中等",
+    "hard": "困难",
+    "startGame": "开始游戏",
+    "generating": "正在生成游戏...",
+    "back": "返回",
+    "exitGame": "退出游戏",
+    "gameCompleted": "游戏完成！",
+    "playAgain": "再玩一次",
+    "score": "得分",
+    "question": "问题",
+    "explanation": "解释：",
+    "listenPronunciation": "听发音",
+    "matchedPairs": "匹配的对"
+  },
+  "translate": {
+    "title": "翻译工具",
+    "sourceLanguage": "源语言",
+    "targetLanguage": "目标语言",
+    "enterText": "输入要翻译的文本...",
+    "translate": "翻译",
+    "translating": "翻译中...",
+    "translation": "翻译结果"
+  },
+  "lessons": {
+    "title": "互动课程",
+    "selectLanguage": "请选择语言来生成课程：",
+    "learn": "通过AI生成的课程学习{{language}}",
+    "level": "级别：",
+    "beginner": "初级",
+    "intermediate": "中级",
+    "advanced": "高级",
+    "topic": "主题（可选）：",
+    "generateLesson": "生成课程",
+    "generating": "正在生成课程..."
+  },
+  "news": {
+    "title": "每日新闻",
+    "refresh": "刷新",
+    "readMore": "阅读更多",
+    "justNow": "刚刚",
+    "hoursAgo": "{{hours}}小时前",
+    "daysAgo": "{{days}}天前"
+  },
+  "auth": {
+    "signIn": "登录",
+    "signOut": "退出登录",
+    "email": "邮箱",
+    "password": "密码",
+    "emailPlaceholder": "请输入邮箱",
+    "passwordPlaceholder": "请输入密码",
+    "signInWithEmail": "邮箱登录",
+    "orContinueWith": "或使用以下方式继续",
+    "continueWithGoogle": "使用Google继续",
+    "continueWithApple": "使用Apple继续",
+    "web3Wallets": "Web3钱包",
+    "connectMetaMask": "连接MetaMask",
+    "connectCoinbase": "连接Coinbase钱包",
+    "connectPhantom": "连接Phantom",
+    "loginFailed": "登录失败，请重试。",
+    "emailPasswordRequired": "邮箱和密码为必填项",
+    "welcome": "欢迎，{{name}}！",
+    "profile": "个人资料"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "发生错误",
+    "retry": "重试",
+    "cancel": "取消",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "close": "关闭",
+    "selectLanguage": "选择语言"
+  },
+  "languages": {
+    "en": "英语",
+    "ja": "日语",
+    "zh": "中文",
+    "es": "西班牙语",
+    "el": "希腊语",
+    "he": "希伯来语",
+    "de": "德语",
+    "fr": "法语",
+    "it": "意大利语"
+  }
+}

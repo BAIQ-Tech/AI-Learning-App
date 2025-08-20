@@ -1,0 +1,136 @@
+{
+  "app": {
+    "title": "KI-Lernen",
+    "welcome": "Willkommen bei KI-Lernen",
+    "subtitle": "Meistern Sie neue Sprachen mit KI-gesteuerten Gesprächen, interaktiven Lektionen und intelligenten Übersetzungstools. Wählen Sie Ihre Zielsprache, um zu beginnen!"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "chat": "Chat",
+    "voice": "Stimme",
+    "games": "Spiele",
+    "translate": "Übersetzen",
+    "lessons": "Lektionen",
+    "news": "Nachrichten"
+  },
+  "home": {
+    "readyToLearn": "Bereit, {{language}} zu lernen!",
+    "description": "Verwenden Sie die Navigation oben, um mit Ihrem KI-Tutor zu chatten, Sprachgespräche zu üben, Sprachspiele zu spielen, Text zu übersetzen oder interaktive Lektionen zu erkunden."
+  },
+  "chat": {
+    "title": "KI-Sprachtutor",
+    "selectLanguage": "Bitte wählen Sie eine Sprache, um mit Ihrem KI-Tutor zu chatten:",
+    "practice": "Üben Sie {{language}} mit Ihrem KI-Tutor",
+    "placeholder": "Geben Sie hier Ihre Nachricht ein...",
+    "send": "Senden",
+    "welcome": "Hallo! Ich bin Ihr KI-Sprachtutor. Beginnen Sie ein Gespräch und ich helfe Ihnen beim Üben!"
+  },
+  "voice": {
+    "title": "Sprachgesprächsübung",
+    "selectLanguage": "Bitte wählen Sie eine Sprache für die Sprachgesprächsübung:",
+    "startRecording": "Aufnahme starten",
+    "stopRecording": "Aufnahme stoppen",
+    "processing": "Audio wird verarbeitet...",
+    "welcome": "Klicken Sie auf die Mikrofon-Taste, um ein Gespräch zu beginnen!",
+    "description": "Die KI wird in der gewählten Sprache antworten und Ihre Ausspracheübung unterstützen.",
+    "clearConversation": "Gespräch löschen",
+    "replay": "Audio wiedergeben"
+  },
+  "games": {
+    "title": "Sprachspiele",
+    "selectLanguage": "Bitte wählen Sie eine Sprache für Sprachspiele:",
+    "selectGame": "Bitte wählen Sie ein Spiel",
+    "vocabularyQuiz": "Vokabel-Quiz",
+    "vocabularyQuizDesc": "Wählen Sie die Bedeutung von Wörtern aus Multiple-Choice-Optionen",
+    "pronunciationPractice": "Ausspracheübung",
+    "pronunciationPracticeDesc": "Lernen Sie die richtige Aussprache",
+    "wordMatch": "Wörter zuordnen",
+    "wordMatchDesc": "Ordnen Sie Wörter ihren Bedeutungen zu",
+    "difficulty": "Schwierigkeitsgrad:",
+    "easy": "Einfach",
+    "medium": "Mittel",
+    "hard": "Schwer",
+    "startGame": "Spiel starten",
+    "generating": "Spiel wird erstellt...",
+    "back": "Zurück",
+    "exitGame": "Spiel verlassen",
+    "gameCompleted": "Spiel abgeschlossen!",
+    "playAgain": "Nochmal spielen",
+    "score": "Punktzahl",
+    "question": "Frage",
+    "explanation": "Erklärung:",
+    "listenPronunciation": "Aussprache anhören",
+    "matchedPairs": "Zugeordnete Paare"
+  },
+  "translate": {
+    "title": "Übersetzungstool",
+    "sourceLanguage": "Ausgangssprache",
+    "targetLanguage": "Zielsprache",
+    "enterText": "Text zum Übersetzen eingeben...",
+    "translate": "Übersetzen",
+    "translating": "Übersetze...",
+    "translation": "Übersetzung"
+  },
+  "lessons": {
+    "title": "Interaktive Lektionen",
+    "selectLanguage": "Bitte wählen Sie eine Sprache für Lektionen:",
+    "learn": "Lernen Sie {{language}} mit KI-generierten Lektionen",
+    "level": "Niveau:",
+    "beginner": "Anfänger",
+    "intermediate": "Fortgeschritten",
+    "advanced": "Experte",
+    "topic": "Thema (optional):",
+    "generateLesson": "Lektion erstellen",
+    "generating": "Lektion wird generiert..."
+  },
+  "news": {
+    "title": "Tägliche Nachrichten",
+    "refresh": "Aktualisieren",
+    "readMore": "Mehr lesen",
+    "justNow": "Gerade eben",
+    "hoursAgo": "vor {{hours}}h",
+    "daysAgo": "vor {{days}}d"
+  },
+  "auth": {
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "emailPlaceholder": "Geben Sie Ihre E-Mail ein",
+    "passwordPlaceholder": "Geben Sie Ihr Passwort ein",
+    "signInWithEmail": "Mit E-Mail anmelden",
+    "orContinueWith": "oder fortfahren mit",
+    "continueWithGoogle": "Mit Google fortfahren",
+    "continueWithApple": "Mit Apple fortfahren",
+    "web3Wallets": "Web3 Wallets",
+    "connectMetaMask": "MetaMask verbinden",
+    "connectCoinbase": "Coinbase Wallet verbinden",
+    "connectPhantom": "Phantom verbinden",
+    "loginFailed": "Anmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "emailPasswordRequired": "E-Mail und Passwort sind erforderlich",
+    "welcome": "Willkommen, {{name}}!",
+    "profile": "Profil"
+  },
+  "common": {
+    "loading": "Lädt...",
+    "error": "Ein Fehler ist aufgetreten",
+    "retry": "Erneut versuchen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "close": "Schließen",
+    "selectLanguage": "Sprache wählen"
+  },
+  "languages": {
+    "en": "Englisch",
+    "ja": "Japanisch",
+    "zh": "Chinesisch",
+    "es": "Spanisch",
+    "el": "Griechisch",
+    "he": "Hebräisch",
+    "de": "Deutsch",
+    "fr": "Französisch",
+    "it": "Italienisch"
+  }
+}

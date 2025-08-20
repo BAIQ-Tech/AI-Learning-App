@@ -1,0 +1,172 @@
+{
+  "app": {
+    "title": "AI-Learning",
+    "welcome": "Welcome to AI-Learning",
+    "subtitle": "Master new languages with AI-powered conversations, interactive lessons, and intelligent translation tools. Choose your target language to get started!"
+  },
+  "navigation": {
+    "home": "Home",
+    "chat": "Chat",
+    "voice": "Voice",
+    "games": "Games",
+    "translate": "Translate",
+    "lessons": "Lessons",
+    "news": "News"
+  },
+  "home": {
+    "readyToLearn": "Ready to learn {{language}}!",
+    "description": "Use the navigation above to start chatting with your AI tutor, practice voice conversations, play language games, translate text, or explore interactive lessons."
+  },
+  "chat": {
+    "title": "AI Language Tutor",
+    "selectLanguage": "Please select a language to start chatting with your AI tutor:",
+    "practice": "Practice {{language}} with your AI tutor",
+    "placeholder": "Type your message here...",
+    "send": "Send"
+  },
+  "voice": {
+    "title": "Voice Conversation Practice",
+    "selectLanguage": "Please select a language to start voice conversation practice:",
+    "startRecording": "Start Recording",
+    "stopRecording": "Stop Recording",
+    "processing": "Processing audio...",
+    "welcome": "Press the microphone button to start conversation!",
+    "description": "AI will respond in the selected language and support your pronunciation practice.",
+    "clearConversation": "Clear Conversation",
+    "replay": "Replay audio"
+  },
+  "games": {
+    "title": "Language Games",
+    "selectLanguage": "Please select a language to play language games:",
+    "selectGame": "Please select a game",
+    "vocabularyQuiz": "Vocabulary Quiz",
+    "vocabularyQuizDesc": "Choose the meaning of words from multiple choices",
+    "pronunciationPractice": "Pronunciation Practice",
+    "pronunciationPracticeDesc": "Learn correct pronunciation",
+    "wordMatch": "Word Matching",
+    "wordMatchDesc": "Match words with their meanings",
+    "difficulty": "Difficulty:",
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard",
+    "startGame": "Start Game",
+    "generating": "Generating game...",
+    "back": "Back",
+    "exitGame": "Exit Game",
+    "gameCompleted": "Game Completed!",
+    "playAgain": "Play Again",
+    "score": "Score",
+    "question": "Question",
+    "explanation": "Explanation:",
+    "listenPronunciation": "Listen to pronunciation",
+    "matchedPairs": "Matched pairs"
+  },
+  "translate": {
+    "title": "Translation Tool",
+    "sourceLanguage": "Source Language",
+    "targetLanguage": "Target Language",
+    "enterText": "Enter text to translate...",
+    "translate": "Translate",
+    "translating": "Translating...",
+    "translation": "Translation"
+  },
+  "lessons": {
+    "title": "Interactive Lessons",
+    "selectLanguage": "Please select a language to generate lessons:",
+    "learn": "Learn {{language}} with AI-generated lessons",
+    "level": "Level:",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "topic": "Topic (optional):",
+    "generateLesson": "Generate Lesson",
+    "generating": "Generating lesson..."
+  },
+  "news": {
+    "title": "Daily News",
+    "refresh": "Refresh",
+    "readMore": "Read More",
+    "justNow": "Just now",
+    "hoursAgo": "{{hours}}h ago",
+    "daysAgo": "{{days}}d ago"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "email": "Email",
+    "password": "Password",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "signInWithEmail": "Sign In with Email",
+    "orContinueWith": "or continue with",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithApple": "Continue with Apple",
+    "web3Wallets": "Web3 Wallets",
+    "connectMetaMask": "Connect MetaMask",
+    "connectCoinbase": "Connect Coinbase Wallet",
+    "connectPhantom": "Connect Phantom Wallet",
+    "walletConnected": "Wallet connected successfully!",
+    "walletConnectionFailed": "Failed to connect wallet",
+    "installWallet": "Please install the wallet extension first",
+    "connectionRejected": "Connection was rejected",
+    "pendingRequest": "Please check your wallet for pending requests",
+    "signUp": "Sign Up",
+    "name": "Name",
+    "namePlaceholder": "Enter your name",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "nameRequired": "Name is required",
+    "passwordMismatch": "Passwords do not match",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "signupFailed": "Sign up failed. Please try again.",
+    "alreadyHaveAccount": "Already have an account? Sign in",
+    "noAccount": "Don't have an account? Sign up",
+    "authRequired": "Please sign in to continue",
+    "loginFailed": "Login failed. Please try again.",
+    "emailPasswordRequired": "Email and password are required",
+    "welcome": "Welcome, {{name}}!",
+    "profile": "Profile"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "selectLanguage": "Select Language"
+  },
+  "features": {
+    "chat": {
+      "description": "Practice conversations with AI tutors in your target language"
+    },
+    "voice": {
+      "description": "Improve pronunciation with voice recognition and AI feedback"
+    },
+    "games": {
+      "description": "Learn vocabulary and grammar through interactive language games"
+    },
+    "translate": {
+      "description": "Translate text between languages with AI-powered accuracy"
+    },
+    "lessons": {
+      "description": "Access personalized lessons tailored to your learning level"
+    },
+    "news": {
+      "description": "Read current news articles to improve reading comprehension"
+    }
+  },
+  "languages": {
+    "en": "English",
+    "ja": "Japanese",
+    "zh": "Chinese",
+    "es": "Spanish",
+    "el": "Greek",
+    "he": "Hebrew",
+    "de": "German",
+    "fr": "French",
+    "it": "Italian"
+  }
+}
