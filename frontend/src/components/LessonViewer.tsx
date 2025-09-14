@@ -4,9 +4,6 @@ import { FaCheck, FaTimes } from 'react-icons/fa';
 import { Lesson, Exercise } from '../types';
 import { languageApi } from '../services/api';
 
-// FaPlay is imported for future use
-const FaPlay = () => null;
-
 const LessonContainer = styled.div`
   background: white;
   border-radius: 12px;
