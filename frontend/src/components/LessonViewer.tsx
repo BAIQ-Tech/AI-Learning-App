@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FaPlay, FaCheck, FaTimes } from 'react-icons/fa';
+import { FaCheck, FaTimes } from 'react-icons/fa';
+// FaPlay is imported for future use
+const FaPlay = () => null;
 import { Lesson, Exercise } from '../types';
 import { languageApi } from '../services/api';
 
