@@ -9,7 +9,9 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONHASHSEED=random \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PIP_DEFAULT_TIMEOUT=100
+    PIP_DEFAULT_TIMEOUT=100 \
+    PORT=8000 \
+    ENVIRONMENT=production
 
 # Set working directory
 WORKDIR /app
@@ -18,7 +20,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     python3-dev \
-    sqlite3 \
+    libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
@@ -28,12 +30,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Create and set permissions for SQLite database
-RUN touch /app/ai_learning.db \
-    && chmod 666 /app/ai_learning.db
+# Collect static files (if any)
+RUN mkdir -p /app/static
 
 # Expose the port the app runs on
-EXPOSE 8000
+EXPOSE $PORT
 
-# Command to run the application with auto-reload for development
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# Command to run the application
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT --workers 4"]

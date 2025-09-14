@@ -8,6 +8,6 @@ python-dotenv
 requests
 PyJWT==2.8.0
 python-jose[cryptography]==3.3.0
-psycopg2-binary==2.9.9
+psycopg2-binary==2.9.10
 sqlalchemy==2.0.25
 alembic==1.13.1
