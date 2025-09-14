@@ -44,7 +44,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (savedUser && token) {
         try {
           // Verify token is still valid by calling backend
-          const response = await fetch('http://localhost:8000/api/auth/me', {
+          const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+          const response = await fetch(`${apiUrl}/api/auth/me`, {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
