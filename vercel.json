@@ -5,15 +5,23 @@
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "build",
-        "env": {
-          "CI": "false",
-          "REACT_APP_API_URL": "https://api.baiq-tech.com"
-        }
+        "distDir": "build"
+      }
+    },
+    {
+      "src": "backend/main.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
       }
     }
   ],
   "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/main.py"
+    },
     {
       "src": "/static/(.*)",
       "dest": "/static/$1"
