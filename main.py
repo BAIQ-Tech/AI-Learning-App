@@ -6,10 +6,13 @@ import os
 import sys
 from pathlib import Path
 
-# Add the current directory to Python path
-current_dir = str(Path(__file__).parent)
-if current_dir not in sys.path:
-    sys.path.append(current_dir)
+# Add the project root and backend directory to Python path
+project_root = str(Path(__file__).parent)
+backend_path = str(Path(__file__).parent / 'backend')
+
+for path in [project_root, backend_path]:
+    if path not in sys.path:
+        sys.path.insert(0, path)
 
 # Import the FastAPI app from the backend module
 from backend.main import app as application

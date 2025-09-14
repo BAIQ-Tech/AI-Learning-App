@@ -19,6 +19,9 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
+.pytest_cache/
+.mypy_cache/
 
 # Virtual Environment
 venv/
@@ -45,9 +48,52 @@ yarn-error.log*
 !.yarn/sdks
 !.yarn/versions
 
-# Build directories
+# Build and package directories
 /build/
 /dist/
+/backend/media/*
+!/backend/media/.gitkeep
+
+# Database
+*.sqlite3
+*.sqlite
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Local development settings
+local_settings.py
+docker-compose.override.yml
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Local development environment
+.env.local
+
+# Render specific
+.render/
 /out/
 .next/
 .nuxt/

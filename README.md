@@ -1,8 +1,161 @@
-# AI Learning App
+# AI Learning Platform 🌍
 
-A comprehensive multilingual AI-powered language learning platform with advanced authentication, interactive features, and real-time translation capabilities.
+A comprehensive, multilingual AI-powered language learning platform with advanced authentication, interactive features, and real-time translation capabilities. This platform is built with FastAPI (Python) for the backend and React for the frontend, designed to be scalable, secure, and easy to deploy.
 
-## 🌍 Supported Languages
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.8+ (recommended: 3.11)
+- Node.js 16+ and npm/yarn
+- PostgreSQL (for production) or SQLite (for development)
+- OpenAI API Key
+
+### Local Development Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/ai-learning-platform.git
+   cd ai-learning-platform
+   ```
+
+2. **Set up the backend**
+   ```bash
+   # Create and activate a virtual environment
+   python -m venv venv
+   source venv/bin/activate  # On Windows: .\venv\Scripts\activate
+   
+   # Install dependencies
+   pip install -e .
+   
+   # Set up environment variables
+   cp backend/.env.example backend/.env
+   # Edit the .env file with your configuration
+   ```
+
+3. **Set up the frontend**
+   ```bash
+   cd frontend
+   npm install
+   cp .env.example .env
+   # Edit the .env file with your frontend configuration
+   cd ..
+   ```
+
+4. **Start the development servers**
+   ```bash
+   # Start backend server
+   cd backend
+   uvicorn main:app --reload
+   
+   # In a new terminal, start frontend server
+   cd frontend
+   npm start
+   ```
+
+5. **Access the application**
+   - Frontend: http://localhost:3000
+   - API Docs: http://localhost:8000/docs
+
+## 🛠️ Configuration
+
+### Environment Variables
+
+Create a `.env` file in the `backend` directory based on `.env.example`. Key variables include:
+
+- `DATABASE_URL`: Database connection string
+- `OPENAI_API_KEY`: Your OpenAI API key
+- `SECRET_KEY`: Secret key for signing cookies
+- `JWT_SECRET_KEY`: Secret key for JWT tokens
+- `CORS_ORIGINS`: Allowed origins for CORS
+
+### Database Setup
+
+#### Development (SQLite)
+```bash
+# No additional setup needed, SQLite database will be created automatically
+```
+
+#### Production (PostgreSQL)
+1. Create a PostgreSQL database
+2. Update `DATABASE_URL` in `.env`:
+   ```
+   DATABASE_URL=postgresql://user:password@localhost:5432/ai_learning
+   ```
+3. Run migrations:
+   ```bash
+   alembic upgrade head
+   ```
+
+## 🚀 Deployment
+
+### Docker (Recommended)
+
+```bash
+# Build and start containers
+docker-compose up --build
+
+# Run migrations
+docker-compose exec backend alembic upgrade head
+```
+
+### Manual Deployment
+
+1. **Backend**
+   ```bash
+   # Install dependencies
+   pip install -r requirements.txt
+   
+   # Set environment variables
+   export $(grep -v '^#' .env | xargs)
+   
+   # Run with Gunicorn
+   gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:8000
+   ```
+
+2. **Frontend**
+   ```bash
+   cd frontend
+   npm install
+   npm run build
+   
+   # Serve static files with a web server like Nginx
+   ```
+
+## 📚 API Documentation
+
+Interactive API documentation is available at `/docs` when running the backend:
+- Swagger UI: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [FastAPI](https://fastapi.tiangolo.com/) - The web framework used
+- [React](https://reactjs.org/) - Frontend library
+- [OpenAI](https://openai.com/) - For the AI/ML capabilities
+- [SQLAlchemy](https://www.sqlalchemy.org/) - ORM
+- [Alembic](https://alembic.sqlalchemy.org/) - Database migrations
+
+---
+
+<div align="center">
+  Made with ❤️ by BAIQ Tech
+</div>
+
+## ✨ Key Features
+
+### 🌍 Multilingual Support
 - **English** (English)
 - **Japanese** (日本語)
 - **Chinese** (中文)
@@ -13,16 +166,29 @@ A comprehensive multilingual AI-powered language learning platform with advanced
 - **French** (Français)
 - **Italian** (Italiano)
 
-## ✨ Features
+### 🔐 Authentication & Security
+- Email/Password authentication
+- Social login (Google, Apple)
+- Web3 wallet integration
+- JWT token-based authentication
+- Role-based access control
 
-### 🔐 Authentication
-- **Email/Password** authentication with registration
-- **Web3 Wallet** integration (MetaMask, Coinbase Wallet, Phantom)
-- **Social Login** (Google OAuth, Apple Sign-In ready)
-- **JWT-based** session management with 7-day expiration
-- **Secure** password hashing and token validation
+### 🎓 Learning Features
+- Interactive lessons
+- Real-time translation
+- Voice conversation practice
+- Vocabulary builder
+- Progress tracking
+- Gamification elements
 
-### 🎯 Core Learning Features
+### 🛠️ Developer Friendly
+- RESTful API
+- WebSocket support
+- Comprehensive documentation
+- Docker support
+- CI/CD ready
+
+## 🎯 Core Learning Features
 - **AI Chat** - Conversational practice with GPT-powered responses
 - **Voice Practice** - Speech recognition and pronunciation feedback
 - **Translation Tool** - Real-time text translation between all supported languages

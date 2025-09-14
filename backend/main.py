@@ -15,8 +15,8 @@ import uuid
 from dotenv import load_dotenv
 
 # Import database and models
-from database import get_db, Base, engine
-from models import User, UserProgress, Conversation, Lesson, Story, Comment, StoryLike
+from backend.database import get_db, Base, engine
+from backend.models import User, UserProgress, Conversation, Lesson, Story, Comment, StoryLike
 
 # Load environment variables
 load_dotenv()
