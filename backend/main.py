@@ -113,21 +113,17 @@ class User(Base):
 
 class UserProgress(Base):
     __tablename__ = 'user_progress'
-        CREATE TABLE IF NOT EXISTS story_likes (
-            story_id INTEGER NOT NULL,
-            user_id INTEGER NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            PRIMARY KEY (story_id, user_id),
-            FOREIGN KEY (story_id) REFERENCES stories (id),
-            FOREIGN KEY (user_id) REFERENCES users (id)
-        )
-    ''')
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    lesson_id = Column(Integer, ForeignKey('lessons.id'))
+    completed = Column(Boolean, default=False)
+    score = Column(Integer, default=0)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
-    conn.commit()
-    conn.close()
-
-# Initialize database
-init_db()
+    # Relationships
+    user = relationship("User", back_populates="progress")
+    lesson = relationship("Lesson", back_populates="progress")
 
 # Authentication Helper Functions
 def hash_password(password: str) -> str:
