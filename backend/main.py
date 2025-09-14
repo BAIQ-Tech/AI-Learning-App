@@ -50,6 +50,10 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 
 # Initialize database
 Base.metadata.create_all(bind=engine)
+
+# CORS middleware configuration
+app.add_middleware(
+    CORSMiddleware,
     allow_origins=["*"],  # Allow all origins for development
     allow_credentials=True,
     allow_methods=["*"],
