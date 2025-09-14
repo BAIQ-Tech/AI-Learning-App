@@ -3,12 +3,20 @@ import os
 
 # Read requirements
 def read_requirements(file_path):
-    with open(file_path) as f:
-        return [
-            line.strip() 
-            for line in f 
-            if line.strip() and not line.startswith('#') and not line.startswith('-e')
-        ]
+    requirements = []
+    try:
+        with open(file_path) as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and not line.startswith('-e'):
+                    # Remove any comments at the end of the line
+                    if '#' in line:
+                        line = line.split('#')[0].strip()
+                    if line:  # Check if there's anything left after stripping
+                        requirements.append(line)
+    except FileNotFoundError:
+        return []
+    return requirements
 
 # Get long description from README
 current_dir = os.path.abspath(os.path.dirname(__file__))
@@ -20,10 +28,11 @@ if os.path.exists(readme_path):
 
 # Read requirements
 requirements = read_requirements('requirements.txt')
-try:
-    dev_requirements = read_requirements('requirements-dev.txt')
-except FileNotFoundError:
-    dev_requirements = []
+dev_requirements = read_requirements('requirements-dev.txt')
+
+# Remove any empty strings or None values
+requirements = [r for r in requirements if r]
+dev_requirements = [r for r in dev_requirements if r]
 
 setup(
     name="ai_learning",
@@ -37,8 +46,8 @@ setup(
     packages=find_packages(include=['backend', 'backend.*']),
     install_requires=requirements,
     extras_require={
-        'dev': dev_requirements,
-    },
+        'dev': dev_requirements
+    } if dev_requirements else None,
     python_requires=">=3.8,<3.12",  # Ensure compatibility with Python 3.11
     include_package_data=True,
     package_data={
