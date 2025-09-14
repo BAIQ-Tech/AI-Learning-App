@@ -1,30 +1,56 @@
-from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi import FastAPI, HTTPException, Depends, status, UploadFile, File, Form, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from pydantic import BaseModel
-from typing import Optional, List
-import sqlite3
+from pydantic import BaseModel, EmailStr
+from typing import Optional, List, Dict, Any
+from datetime import datetime, timedelta
+from sqlalchemy.orm import Session
+import json
 import os
-from openai import OpenAI
-import base64
-import tempfile
 import jwt
 import hashlib
-from datetime import datetime, timedelta
 import secrets
-import json
+import uuid
 from dotenv import load_dotenv
+
+# Import database and models
+from database import get_db, Base, engine
+from models import User, UserProgress, Conversation, Lesson, Story, Comment, StoryLike
 
 # Load environment variables
 load_dotenv()
 
 # Initialize FastAPI app
-app = FastAPI(title="AI-Learning API", version="1.0.0")
+app = FastAPI(title="AI Learning API", version="1.0.0")
+
+# Static files (media uploads)
+MEDIA_DIR = os.path.join(os.path.dirname(__file__), "media")
+os.makedirs(MEDIA_DIR, exist_ok=True)
 
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001"],
+    allow_origins=["http://localhost:3000", "https://your-vercel-app.vercel.app"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Mount static files
+app.mount("/media", StaticFiles(directory=MEDIA_DIR), name="media")
+
+# Security
+security = HTTPBearer()
+
+# JWT Configuration
+SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key")
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
+
+# Initialize database
+Base.metadata.create_all(bind=engine)
+    allow_origins=["*"],  # Allow all origins for development
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -35,6 +61,13 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # JWT Configuration
 JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", secrets.token_urlsafe(32))
+
+# Health check endpoint
+@app.get("/health")
+async def health_check():
+    from datetime import datetime
+    return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
+
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_HOURS = 168  # 7 days
 
@@ -54,54 +87,34 @@ SUPPORTED_LANGUAGES = {
     "it": {"code": "it", "name": "Italian", "native": "Italiano", "nativeName": "Italiano"}
 }
 
-# Database initialization
-def init_db():
-    conn = sqlite3.connect('language_learning.db')
-    cursor = conn.cursor()
+# SQLAlchemy Models
+class User(Base):
+    __tablename__ = 'users'
     
-    # Create users table with authentication fields
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT,
-            email TEXT,
-            password_hash TEXT,
-            name TEXT NOT NULL,
-            avatar TEXT,
-            auth_method TEXT NOT NULL,
-            wallet_address TEXT,
-            social_id TEXT,
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, nullable=True)
+    email = Column(String, unique=True, nullable=True)
+    password_hash = Column(String, nullable=True)
+    name = Column(String, nullable=False)
+    avatar = Column(String, nullable=True)
+    auth_method = Column(String, nullable=False)
+    wallet_address = Column(String, unique=True, nullable=True)
+    social_id = Column(String, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    last_login = Column(DateTime, nullable=True)
+    
+    # Relationships
+    progress = relationship("UserProgress", back_populates="user")
+    conversations = relationship("Conversation", back_populates="user")
+
+class UserProgress(Base):
+    __tablename__ = 'user_progress'
+        CREATE TABLE IF NOT EXISTS story_likes (
+            story_id INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            last_login TIMESTAMP
-        )
-    ''')
-    
-    # Create unique indexes for partial uniqueness
-    cursor.execute('CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email ON users(email) WHERE email IS NOT NULL')
-    cursor.execute('CREATE UNIQUE INDEX IF NOT EXISTS idx_users_wallet ON users(wallet_address) WHERE wallet_address IS NOT NULL')
-    cursor.execute('CREATE UNIQUE INDEX IF NOT EXISTS idx_users_social ON users(social_id, auth_method) WHERE social_id IS NOT NULL')
-    
-    # User progress table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS user_progress (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER,
-            language_code TEXT,
-            lesson_id TEXT,
-            score INTEGER,
-            completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES users (id)
-        )
-    ''')
-    
-    # Conversations table
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS conversations (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER,
-            language_code TEXT,
-            messages TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (story_id, user_id),
+            FOREIGN KEY (story_id) REFERENCES stories (id),
             FOREIGN KEY (user_id) REFERENCES users (id)
         )
     ''')
@@ -237,6 +250,17 @@ class PronunciationRequest(BaseModel):
     text: str
     language_code: str
     audio_data: str  # base64 encoded audio
+
+# Stories models
+class StoryListResponse(BaseModel):
+    id: int
+    user_id: int
+    content_type: str
+    text: Optional[str] = None
+    media_url: Optional[str] = None
+    created_at: str
+    likes: int
+    liked_by_me: bool
 
 # Routes
 @app.get("/")
@@ -649,6 +673,129 @@ async def voice_conversation(request: VoiceConversationRequest, current_user: di
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Voice conversation failed: {str(e)}")
+
+# -----------------------
+# Stories Endpoints
+# -----------------------
+
+@app.post("/api/stories")
+async def create_story(
+    content_type: str = Form(...),
+    text: Optional[str] = Form(None),
+    file: Optional[UploadFile] = File(None),
+    current_user: dict = Depends(get_current_user),
+):
+    """
+    Create a story. Supports:
+      - content_type: 'image' | 'video' | 'audio' | 'text'
+      - text: optional caption or content (required for text-only)
+      - file: optional media file for image/video/audio
+    """
+    if content_type not in {"image", "video", "audio", "text"}:
+        raise HTTPException(status_code=400, detail="Invalid content_type")
+
+    media_url = None
+    if content_type != "text":
+        if not file:
+            raise HTTPException(status_code=400, detail="Media file is required for non-text stories")
+        # Save file
+        ext = os.path.splitext(file.filename or "")[1].lower()
+        safe_ext = ext if ext in {".png", ".jpg", ".jpeg", ".mp4", ".mov", ".m4a", ".wav", ".aac"} else ""
+        filename = f"{uuid.uuid4().hex}{safe_ext}"
+        dest_path = os.path.join(MEDIA_DIR, filename)
+        with open(dest_path, "wb") as out:
+            while True:
+                chunk = await file.read(1024 * 1024)
+                if not chunk:
+                    break
+                out.write(chunk)
+        media_url = f"/media/{filename}"
+    else:
+        if not text:
+            raise HTTPException(status_code=400, detail="Text content required for text stories")
+
+    conn = sqlite3.connect('language_learning.db')
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT INTO stories (user_id, content_type, text, media_url) VALUES (?, ?, ?, ?)",
+        (current_user["id"], content_type, text, media_url)
+    )
+    story_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+
+    return {"id": story_id, "media_url": media_url}
+
+
+@app.get("/api/stories", response_model=List[StoryListResponse])
+async def list_stories(current_user: dict = Depends(get_current_user)):
+    conn = sqlite3.connect('language_learning.db')
+    cursor = conn.cursor()
+
+    cursor.execute(
+        """
+        SELECT s.id, s.user_id, s.content_type, s.text, s.media_url, s.created_at,
+               IFNULL(l.likes, 0) as likes,
+               CASE WHEN lm.user_id IS NULL THEN 0 ELSE 1 END as liked_by_me
+        FROM stories s
+        LEFT JOIN (
+            SELECT story_id, COUNT(*) as likes FROM story_likes GROUP BY story_id
+        ) l ON l.story_id = s.id
+        LEFT JOIN (
+            SELECT story_id, user_id FROM story_likes WHERE user_id = ?
+        ) lm ON lm.story_id = s.id
+        ORDER BY s.created_at DESC
+        LIMIT 100
+        """,
+        (current_user["id"],)
+    )
+    rows = cursor.fetchall()
+    conn.close()
+
+    results: List[StoryListResponse] = []
+    for r in rows:
+        results.append(StoryListResponse(
+            id=r[0], user_id=r[1], content_type=r[2], text=r[3], media_url=r[4], created_at=str(r[5]), likes=int(r[6]), liked_by_me=bool(r[7])
+        ))
+    return results
+
+
+@app.post("/api/stories/{story_id}/like")
+async def like_story(story_id: int, current_user: dict = Depends(get_current_user)):
+    conn = sqlite3.connect('language_learning.db')
+    cursor = conn.cursor()
+
+    # Ensure story exists
+    cursor.execute("SELECT id FROM stories WHERE id = ?", (story_id,))
+    if not cursor.fetchone():
+        conn.close()
+        raise HTTPException(status_code=404, detail="Story not found")
+
+    # Toggle like
+    cursor.execute(
+        "SELECT 1 FROM story_likes WHERE story_id = ? AND user_id = ?",
+        (story_id, current_user["id"]) 
+    )
+    if cursor.fetchone():
+        cursor.execute(
+            "DELETE FROM story_likes WHERE story_id = ? AND user_id = ?",
+            (story_id, current_user["id"]) 
+        )
+        action = "unliked"
+    else:
+        cursor.execute(
+            "INSERT INTO story_likes (story_id, user_id) VALUES (?, ?)",
+            (story_id, current_user["id"]) 
+        )
+        action = "liked"
+
+    conn.commit()
+    # Return new like count
+    cursor.execute("SELECT COUNT(*) FROM story_likes WHERE story_id = ?", (story_id,))
+    likes = cursor.fetchone()[0]
+    conn.close()
+
+    return {"story_id": story_id, "status": action, "likes": likes}
 
 @app.post("/games/generate")
 async def generate_game(request: GameRequest):

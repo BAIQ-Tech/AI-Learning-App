@@ -12,6 +12,7 @@ import LessonViewer from './components/LessonViewer';
 import VoiceConversation from './components/VoiceConversation';
 import LanguageGames from './components/LanguageGames';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import News from './components/News';
 import Login from './components/Login';
 import UserProfile from './components/UserProfile';
@@ -739,6 +740,7 @@ const AppContent: React.FC = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
         </Routes>
         <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
       </MainContent>

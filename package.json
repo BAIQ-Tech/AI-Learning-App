@@ -1,0 +1,24 @@
+{
+  "name": "ai-learning",
+  "version": "1.0.0",
+  "description": "A comprehensive multilingual AI-powered language learning platform with advanced authentication, interactive features, and real-time translation capabilities.",
+  "main": "test-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BAIQ-Tech/AI-Learning-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/BAIQ-Tech/AI-Learning-App/issues"
+  },
+  "homepage": "https://github.com/BAIQ-Tech/AI-Learning-App#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

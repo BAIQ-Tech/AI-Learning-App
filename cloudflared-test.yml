@@ -1,0 +1,8 @@
+tunnel: baiq-test-tunnel
+credentials-file: /Users/apple/.cloudflared/ad3d0203-7284-4422-bb7e-8f2ca6f3b542.json
+
+# Route traffic to your local backend (assuming it's running on port 3000)
+ingress:
+  - hostname: test-api.baiq-tech.com
+    service: http://localhost:3000
+  - service: http_status:404

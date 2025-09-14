@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./ai_learning.db
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-your_openai_key_here}
+      - SECRET_KEY=${SECRET_KEY:-your_secret_key_here}
+      - ENVIRONMENT=development
+    volumes:
+      - .:/app
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
