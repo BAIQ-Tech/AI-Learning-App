@@ -1,0 +1,2 @@
+# This file is a pointer to the backend requirements
+-r backend/requirements.txt
