@@ -49,7 +49,14 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 
 # Initialize database
-Base.metadata.create_all(bind=engine)
+try:
+    print("Attempting to connect to the database...")
+    Base.metadata.create_all(bind=engine)
+    print("Database tables created successfully")
+except Exception as e:
+    print(f"Error creating database tables: {e}")
+    import traceback
+    traceback.print_exc()
 
 # CORS middleware configuration
 app.add_middleware(
