@@ -31,7 +31,7 @@ warn_unreachable = true
 module = ["alembic.*"]
 ignore_missing_imports = true
 
-tool.coverage.run
+[tool.coverage.run]
 source = ["backend"]
 omit = [
     "**/tests/*",
