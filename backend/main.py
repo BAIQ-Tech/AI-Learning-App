@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends, status, UploadFile, File, F
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List, Dict, Any
 from datetime import datetime, timedelta
@@ -12,30 +13,65 @@ import jwt
 import hashlib
 import secrets
 import uuid
+import tempfile
+import base64
 from dotenv import load_dotenv
 
 # Import database and models
-from backend.database import get_db, Base, engine
+from backend.database import get_db, Base, engine, init_db
 from backend.models import User, UserProgress, Conversation, Lesson, Story, Comment, StoryLike
+
+# Import utilities
+from backend.utils.logger import get_logger
+from backend.utils.exceptions import (
+    AILearningException, AuthenticationError, ValidationError, 
+    DatabaseError, ExternalServiceError, handle_exception
+)
+from backend.middleware.rate_limiter import get_rate_limit_middleware
+from backend.middleware.monitoring import PerformanceMonitoringMiddleware, get_system_metrics
+from backend.routes.ai_routes import router as ai_router
+from backend.routes.analytics_routes import router as analytics_router
 
 # Load environment variables
 load_dotenv()
 
+# Initialize logger
+logger = get_logger(__name__)
+
 # Initialize FastAPI app
-app = FastAPI(title="AI Learning API", version="1.0.0")
+app = FastAPI(
+    title="AI Learning API", 
+    version="1.0.0",
+    description="A comprehensive AI-powered language learning platform",
+    docs_url="/docs",
+    redoc_url="/redoc"
+)
 
 # Static files (media uploads)
 MEDIA_DIR = os.path.join(os.path.dirname(__file__), "media")
 os.makedirs(MEDIA_DIR, exist_ok=True)
+
+# Add middleware
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
 
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000", "https://your-vercel-app.vercel.app"],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
+
+# Rate limiting middleware
+app.middleware("http")(get_rate_limit_middleware())
+
+# Performance monitoring middleware
+app.add_middleware(PerformanceMonitoringMiddleware)
+
+# Include routers
+app.include_router(ai_router)
+app.include_router(analytics_router)
 
 # Mount static files
 app.mount("/media", StaticFiles(directory=MEDIA_DIR), name="media")
@@ -50,13 +86,12 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 
 # Initialize database
 try:
-    print("Attempting to connect to the database...")
-    Base.metadata.create_all(bind=engine)
-    print("Database tables created successfully")
+    logger.info("Initializing database...")
+    init_db()
+    logger.info("Database initialized successfully")
 except Exception as e:
-    print(f"Error creating database tables: {e}")
-    import traceback
-    traceback.print_exc()
+    logger.error(f"Failed to initialize database: {e}", exc_info=True)
+    raise
 
 # CORS middleware configuration
 app.add_middleware(
@@ -73,11 +108,68 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # JWT Configuration
 JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", secrets.token_urlsafe(32))
 
+# Global exception handler
+@app.exception_handler(AILearningException)
+async def ai_learning_exception_handler(request: Request, exc: AILearningException):
+    """Handle custom AI Learning exceptions"""
+    return handle_exception(exc)
+
+@app.exception_handler(Exception)
+async def general_exception_handler(request: Request, exc: Exception):
+    """Handle general exceptions"""
+    logger.error(f"Unhandled exception: {str(exc)}", exc_info=True, extra={
+        "path": request.url.path,
+        "method": request.method,
+        "client_ip": request.client.host if request.client else "unknown"
+    })
+    return JSONResponse(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content={"detail": "Internal server error", "error_code": "INTERNAL_ERROR"}
+    )
+
 # Health check endpoint
 @app.get("/health")
 async def health_check():
-    from datetime import datetime
-    return {"status": "healthy", "timestamp": datetime.utcnow().isoformat()}
+    """Health check endpoint"""
+    try:
+        # Test database connection
+        db = next(get_db())
+        db.execute("SELECT 1")
+        db.close()
+        
+        return {
+            "status": "healthy", 
+            "timestamp": datetime.utcnow().isoformat(),
+            "database": "connected",
+            "version": "1.0.0"
+        }
+    except Exception as e:
+        logger.error(f"Health check failed: {e}")
+        return JSONResponse(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            content={
+                "status": "unhealthy",
+                "timestamp": datetime.utcnow().isoformat(),
+                "error": str(e)
+            }
+        )
+
+@app.get("/metrics")
+async def get_metrics():
+    """Get system metrics and performance data"""
+    try:
+        metrics = get_system_metrics()
+        return {
+            "status": "success",
+            "metrics": metrics,
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Failed to get metrics: {e}")
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={"detail": "Failed to retrieve metrics"}
+        )
 
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_HOURS = 168  # 7 days

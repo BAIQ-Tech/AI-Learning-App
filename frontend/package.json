@@ -23,6 +23,14 @@
     "styled-components": "^6.1.0",
     "typescript": "^4.9.5"
   },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/jest": "^27.5.2",
+    "msw": "^2.0.8",
+    "jest-environment-jsdom": "^29.5.0"
+  },
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "build": "SKIP_PREFLIGHT_CHECK=true CI=false react-scripts build",

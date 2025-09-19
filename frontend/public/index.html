@@ -1,1 +1,63 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>AI Learning</title><meta name="viewport" content="width=device-width, initial-scale=1"></head><body><div id="root"></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="theme-color" content="#667eea" />
+    <meta name="description" content="AI Learning Platform - Master languages with AI-powered tools, voice practice, and interactive lessons" />
+    <meta name="keywords" content="language learning, AI, multilingual, education, pronunciation, translation" />
+    <meta name="author" content="AI Learning Platform" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ai-learning.com/" />
+    <meta property="og:title" content="AI Learning Platform" />
+    <meta property="og:description" content="Master languages with AI-powered tools, voice practice, and interactive lessons" />
+    <meta property="og:image" content="%PUBLIC_URL%/icon_512.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://ai-learning.com/" />
+    <meta property="twitter:title" content="AI Learning Platform" />
+    <meta property="twitter:description" content="Master languages with AI-powered tools, voice practice, and interactive lessons" />
+    <meta property="twitter:image" content="%PUBLIC_URL%/icon_512.png" />
+
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/icon_192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <title>AI Learning Platform - Master Languages with AI</title>
+  </head>
+  <body>
+    <noscript>
+      <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+        <h1>JavaScript Required</h1>
+        <p>You need to enable JavaScript to run this AI Learning Platform.</p>
+        <p>Please enable JavaScript in your browser settings and refresh the page.</p>
+      </div>
+    </noscript>
+    <div id="root"></div>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>
