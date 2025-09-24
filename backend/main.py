@@ -209,39 +209,7 @@ SUPPORTED_LANGUAGES = {
     "it": {"code": "it", "name": "Italian", "native": "Italiano", "nativeName": "Italiano"}
 }
 
-# SQLAlchemy Models
-class User(Base):
-    __tablename__ = 'users'
-    
-    id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, nullable=True)
-    email = Column(String, unique=True, nullable=True)
-    password_hash = Column(String, nullable=True)
-    name = Column(String, nullable=False)
-    avatar = Column(String, nullable=True)
-    auth_method = Column(String, nullable=False)
-    wallet_address = Column(String, unique=True, nullable=True)
-    social_id = Column(String, nullable=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    last_login = Column(DateTime, nullable=True)
-    
-    # Relationships
-    progress = relationship("UserProgress", back_populates="user")
-    conversations = relationship("Conversation", back_populates="user")
-
-class UserProgress(Base):
-    __tablename__ = 'user_progress'
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    lesson_id = Column(Integer, ForeignKey('lessons.id'))
-    completed = Column(Boolean, default=False)
-    score = Column(Integer, default=0)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
-    # Relationships
-    user = relationship("User", back_populates="progress")
-    lesson = relationship("Lesson", back_populates="progress")
+# Note: SQLAlchemy models are now defined in backend/models.py to avoid duplication
 
 # Authentication Helper Functions
 def hash_password(password: str) -> str:
