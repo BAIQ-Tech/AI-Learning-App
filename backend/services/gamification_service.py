@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func
-from backend.models.gamification import (
+from backend.models import (
     Achievement, UserAchievement, UserStreak, UserLevel, 
     Leaderboard, DailyChallenge, UserDailyChallenge, UserReward
 )

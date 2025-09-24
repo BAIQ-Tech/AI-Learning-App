@@ -3,11 +3,13 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func, and_, or_
-from backend.models.social import (
-    StudyGroup, StudyGroupMember, StudySession, StudySessionParticipant,
-    PeerMatch, PeerConversation, MentorshipProgram, MentorshipSession,
-    ContentShare, ContentLike, ContentComment, LanguageExchange, LanguageExchangeMatch
-)
+# Note: Social models were not implemented in the consolidated models.py
+# This service will need to be updated when social features are implemented
+# from backend.models import (
+#     StudyGroup, StudyGroupMember, StudySession, StudySessionParticipant,
+#     PeerMatch, PeerConversation, MentorshipProgram, MentorshipSession,
+#     ContentShare, ContentLike, ContentComment, LanguageExchange, LanguageExchangeMatch
+# )
 from backend.database import get_db
 
 logger = logging.getLogger(__name__)
