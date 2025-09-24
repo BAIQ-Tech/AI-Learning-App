@@ -22,7 +22,11 @@ from dotenv import load_dotenv
 
 # Import database and models
 from backend.database import get_db, Base, engine, init_db
-from backend.models import User, UserProgress, Conversation, Lesson, Story, Comment, StoryLike
+from backend.models import (
+    User, UserProgress, Conversation, Lesson, Story, Comment, StoryLike,
+    Achievement, UserAchievement, UserStreak, UserLevel, Leaderboard,
+    DailyChallenge, UserDailyChallenge, UserReward
+)
 
 # Import utilities
 from backend.utils.logger import get_logger
