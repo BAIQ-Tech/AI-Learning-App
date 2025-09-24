@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from typing import Optional
 from backend.services.analytics_service import AnalyticsService
-from backend.main import get_current_user
+from backend.utils.auth import get_current_user
 from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)

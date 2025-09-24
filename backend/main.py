@@ -271,42 +271,8 @@ def verify_jwt_token(token: str) -> Optional[dict]:
     except jwt.InvalidTokenError:
         return None
 
-def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
-    """Get the current authenticated user"""
-    token = credentials.credentials
-    payload = verify_jwt_token(token)
-    
-    if not payload:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Session expired. Please sign in again.",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    
-    conn = sqlite3.connect('language_learning.db')
-    cursor = conn.cursor()
-    
-    cursor.execute(
-        "SELECT id, name, email, auth_method, wallet_address, avatar FROM users WHERE id = ?",
-        (payload["user_id"],)
-    )
-    user = cursor.fetchone()
-    conn.close()
-    
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User not found"
-        )
-    
-    return {
-        "id": user[0],
-        "name": user[1],
-        "email": user[2],
-        "auth_method": user[3],
-        "wallet_address": user[4],
-        "avatar": user[5]
-    }
+# Import get_current_user from auth utilities to avoid circular imports
+from backend.utils.auth import get_current_user
 
 # Pydantic models
 class TranslationRequest(BaseModel):

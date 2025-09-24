@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from backend.services.ai_service import PersonalizedLearningService
 from backend.services.gamification_service import GamificationService
 from backend.services.social_service import SocialLearningService
-from backend.main import get_current_user
+from backend.utils.auth import get_current_user
 from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
