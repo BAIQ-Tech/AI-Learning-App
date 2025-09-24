@@ -24,6 +24,14 @@ class User(Base):
     stories = relationship("Story", back_populates="author")
     comments = relationship("Comment", back_populates="author")
     story_likes = relationship("StoryLike", back_populates="user")
+    
+    # Gamification relationships
+    user_achievements = relationship("UserAchievement", back_populates="user")
+    user_streaks = relationship("UserStreak", back_populates="user")
+    user_levels = relationship("UserLevel", back_populates="user")
+    leaderboard_entries = relationship("Leaderboard", back_populates="user")
+    user_daily_challenges = relationship("UserDailyChallenge", back_populates="user")
+    user_rewards = relationship("UserReward", back_populates="user")
 
 class UserProgress(Base):
     __tablename__ = 'user_progress'

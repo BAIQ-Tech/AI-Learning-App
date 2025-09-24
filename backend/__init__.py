@@ -16,8 +16,8 @@ try:
     from .database import Base, engine
     from .models import *  # Import all models to ensure they are registered with SQLAlchemy
     
-    # Create all database tables if they don't exist
-    Base.metadata.create_all(bind=engine)
+    # Note: Table creation is handled by the main application init_db() function
+    # to avoid circular imports and ensure proper model loading order
     
     __all__ = ['Base', 'engine']  # Make Base and engine available when importing from backend
     
