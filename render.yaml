@@ -2,7 +2,7 @@ services:
   # Backend API Service
   - type: web
     name: ai-learning-backend
-    env: python3.11
+    runtime: python
     buildCommand: |
       python -m pip install --upgrade pip
       pip install -r requirements.txt
@@ -29,12 +29,10 @@ services:
       - key: FRONTEND_URL
         value: https://ai-learning-frontend.onrender.com
     plan: free
-    numInstances: 1
 
   # Frontend Static Site
-  - type: web
+  - type: static
     name: ai-learning-frontend
-    env: node
     buildCommand: |
       cd frontend
       npm install
@@ -45,7 +43,6 @@ services:
         value: https://ai-learning-backend.onrender.com
       - key: REACT_APP_ENVIRONMENT
         value: production
-    plan: free
 
 databases:
   - name: ai-learning-db
