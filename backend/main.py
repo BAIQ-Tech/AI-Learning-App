@@ -7,6 +7,9 @@ from pydantic import BaseModel, EmailStr
 from typing import Optional, List, Dict, Any
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, text
+from sqlalchemy.orm import relationship
+import sqlite3
 import json
 import os
 import jwt
@@ -54,10 +57,21 @@ os.makedirs(MEDIA_DIR, exist_ok=True)
 # Add middleware
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
 
-# CORS middleware
+# CORS middleware - Allow both development and production origins
+cors_origins = [
+    "http://localhost:3000",  # Development frontend
+    "https://ai-learning-frontend.onrender.com",  # Production frontend (update with actual URL)
+]
+
+# Add environment-specific origins
+if os.getenv("ENVIRONMENT") == "production":
+    frontend_url = os.getenv("FRONTEND_URL")
+    if frontend_url and frontend_url not in cors_origins:
+        cors_origins.append(frontend_url)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://your-vercel-app.vercel.app"],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
@@ -103,6 +117,7 @@ app.add_middleware(
 )
 
 # Initialize OpenAI client
+from openai import OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # JWT Configuration

@@ -107,7 +107,8 @@ const VoiceConversation: React.FC<VoiceConversationProps> = ({ selectedLanguage 
           return;
         }
 
-        const response = await fetch('http://localhost:8000/api/voice-conversation', {
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+        const response = await fetch(`${apiUrl}/api/voice-conversation`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

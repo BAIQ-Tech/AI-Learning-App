@@ -128,7 +128,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const loginWithEmail = async (credentials: { email: string; password: string }): Promise<User> => {
-    const response = await fetch('http://localhost:8000/api/auth/email', {
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+    const response = await fetch(`${apiUrl}/api/auth/email`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -168,7 +169,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 const payload = JSON.parse(atob(response.credential.split('.')[1]));
                 
                 // Send to backend for verification
-                const backendResponse = await fetch('http://localhost:8000/api/auth/social', {
+                const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+                const backendResponse = await fetch(`${apiUrl}/api/auth/social`, {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
@@ -239,7 +241,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           window.AppleID.auth.signIn().then(async (response: any) => {
             try {
               // Send to backend for verification
-              const backendResponse = await fetch('http://localhost:8000/api/auth/social', {
+              const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+              const backendResponse = await fetch(`${apiUrl}/api/auth/social`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -585,7 +588,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
       
       // Call backend wallet login endpoint
-      const response = await fetch('http://localhost:8000/api/auth/wallet', {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${apiUrl}/api/auth/wallet`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -661,7 +665,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (email: string, password: string, name: string) => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/api/auth/register', {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${apiUrl}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

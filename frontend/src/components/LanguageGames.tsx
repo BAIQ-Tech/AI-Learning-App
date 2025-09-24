@@ -264,7 +264,8 @@ const LanguageGames: React.FC<LanguageGamesProps> = ({ selectedLanguage }) => {
     setSelectedAnswer(null);
 
     try {
-      const response = await fetch('http://localhost:8000/games/generate', {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${apiUrl}/games/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

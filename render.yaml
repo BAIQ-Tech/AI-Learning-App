@@ -1,11 +1,12 @@
 services:
+  # Backend API Service
   - type: web
     name: ai-learning-backend
     env: python3.11
     buildCommand: |
       python -m pip install --upgrade pip
-      pip install -e ".[dev]"
-    startCommand: "gunicorn main:application --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT --pythonpath ."
+      pip install -r requirements.txt
+    startCommand: "gunicorn backend.main:app --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT"
     envVars:
       - key: PYTHONPATH
         value: "/opt/render/project/src"
@@ -25,8 +26,26 @@ services:
         sync: false
       - key: ENVIRONMENT
         value: production
+      - key: FRONTEND_URL
+        value: https://ai-learning-frontend.onrender.com
     plan: free
     numInstances: 1
+
+  # Frontend Static Site
+  - type: web
+    name: ai-learning-frontend
+    env: node
+    buildCommand: |
+      cd frontend
+      npm install
+      REACT_APP_API_URL=https://ai-learning-backend.onrender.com npm run build
+    staticPublishPath: frontend/build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://ai-learning-backend.onrender.com
+      - key: REACT_APP_ENVIRONMENT
+        value: production
+    plan: free
 
 databases:
   - name: ai-learning-db
