@@ -1,7 +1,18 @@
 """
 Models package for the AI Learning backend.
-All models are now in the main models.py file to avoid circular imports.
+All models are in the models.py file at the backend root level.
 """
 
-# Simple re-export from the main models.py file
-from backend.models import *
+# Import all models from the backend.models module (the models.py file)
+# We need to use a relative import to avoid circular import issues
+from ..models import (
+    User, UserProgress, Conversation, Lesson, Story, Comment, StoryLike,
+    Achievement, UserAchievement, UserStreak, UserLevel, Leaderboard,
+    DailyChallenge, UserDailyChallenge, UserReward
+)
+
+__all__ = [
+    'User', 'UserProgress', 'Conversation', 'Lesson', 'Story', 'Comment', 'StoryLike',
+    'Achievement', 'UserAchievement', 'UserStreak', 'UserLevel', 'Leaderboard',
+    'DailyChallenge', 'UserDailyChallenge', 'UserReward'
+]
