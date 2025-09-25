@@ -124,8 +124,7 @@ app.add_middleware(
 from openai import OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# JWT Configuration
-JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", secrets.token_urlsafe(32))
+# JWT configuration is now in backend.utils.auth
 
 # Global exception handler
 @app.exception_handler(AILearningException)
@@ -190,11 +189,7 @@ async def get_metrics():
             content={"detail": "Failed to retrieve metrics"}
         )
 
-JWT_ALGORITHM = "HS256"
-JWT_EXPIRATION_HOURS = 168  # 7 days
-
-# Security
-security = HTTPBearer()
+# Security configuration is now in backend.utils.auth
 
 # Language configurations
 SUPPORTED_LANGUAGES = {
@@ -211,36 +206,10 @@ SUPPORTED_LANGUAGES = {
 
 # Note: SQLAlchemy models are now defined in backend/models.py to avoid duplication
 
-# Authentication Helper Functions
-def hash_password(password: str) -> str:
-    """Hash a password using SHA-256"""
-    return hashlib.sha256(password.encode()).hexdigest()
-
-def verify_password(password: str, hashed: str) -> bool:
-    """Verify a password against its hash"""
-    return hash_password(password) == hashed
-
-def create_jwt_token(user_id: int) -> str:
-    """Create a JWT token for a user"""
-    payload = {
-        "user_id": user_id,
-        "exp": datetime.utcnow() + timedelta(hours=JWT_EXPIRATION_HOURS),
-        "iat": datetime.utcnow()
-    }
-    return jwt.encode(payload, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
-
-def verify_jwt_token(token: str) -> Optional[dict]:
-    """Verify and decode a JWT token"""
-    try:
-        payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
-        return payload
-    except jwt.ExpiredSignatureError:
-        return None
-    except jwt.InvalidTokenError:
-        return None
-
-# Import get_current_user from auth utilities to avoid circular imports
-from backend.utils.auth import get_current_user
+# Import authentication utilities
+from backend.utils.auth import (
+    get_current_user, hash_password, verify_password, create_jwt_token, verify_jwt_token
+)
 
 # Pydantic models
 class TranslationRequest(BaseModel):
@@ -314,22 +283,38 @@ class StoryListResponse(BaseModel):
     likes: int
     liked_by_me: bool
 
+# Startup event
+@app.on_event("startup")
+async def startup_event():
+    """Initialize database on startup"""
+    try:
+        init_db()
+        logger.info("Database initialized successfully")
+    except Exception as e:
+        logger.error(f"Failed to initialize database: {e}")
+        raise
+
 # Routes
 @app.get("/")
 async def root():
     return {"message": "AI-Learning API is running"}
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "message": "AI-Learning API is running",
+        "timestamp": datetime.utcnow().isoformat()
+    }
+
 # Authentication Endpoints
 @app.post("/api/auth/register", response_model=AuthResponse)
-async def register_user(request: UserRegistrationRequest):
+async def register_user(request: UserRegistrationRequest, db: Session = Depends(get_db)):
     """Register a new user with email and password"""
-    conn = sqlite3.connect('language_learning.db')
-    cursor = conn.cursor()
-    
     # Check if user already exists
-    cursor.execute("SELECT id FROM users WHERE email = ?", (request.email,))
-    if cursor.fetchone():
-        conn.close()
+    existing_user = db.query(User).filter(User.email == request.email).first()
+    if existing_user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="User with this email already exists"
@@ -337,21 +322,24 @@ async def register_user(request: UserRegistrationRequest):
     
     # Create new user
     password_hash = hash_password(request.password)
-    cursor.execute(
-        "INSERT INTO users (email, password_hash, name, auth_method) VALUES (?, ?, ?, ?)",
-        (request.email, password_hash, request.name, "email")
+    new_user = User(
+        email=request.email,
+        password_hash=password_hash,
+        name=request.name,
+        auth_method="email"
     )
-    user_id = cursor.lastrowid
-    conn.commit()
-    conn.close()
+    
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
     
     # Create JWT token
-    token = create_jwt_token(user_id)
+    token = create_jwt_token(new_user.id)
     
     return AuthResponse(
         token=token,
         user={
-            "id": user_id,
+            "id": new_user.id,
             "email": request.email,
             "name": request.name,
             "auth_method": "email"
@@ -359,139 +347,116 @@ async def register_user(request: UserRegistrationRequest):
     )
 
 @app.post("/api/auth/email", response_model=AuthResponse)
-async def login_with_email(request: EmailLoginRequest):
+async def login_with_email(request: EmailLoginRequest, db: Session = Depends(get_db)):
     """Login with email and password"""
-    conn = sqlite3.connect('language_learning.db')
-    cursor = conn.cursor()
+    # Find user by email and auth method
+    user = db.query(User).filter(
+        User.email == request.email,
+        User.auth_method == "email"
+    ).first()
     
-    cursor.execute(
-        "SELECT id, password_hash, name, email FROM users WHERE email = ? AND auth_method = ?",
-        (request.email, "email")
-    )
-    user = cursor.fetchone()
-    
-    if not user or not verify_password(request.password, user[1]):
-        conn.close()
+    if not user or not verify_password(request.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password"
         )
     
     # Update last login
-    cursor.execute(
-        "UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?",
-        (user[0],)
-    )
-    conn.commit()
-    conn.close()
+    user.last_login = datetime.utcnow()
+    db.commit()
     
     # Create JWT token
-    token = create_jwt_token(user[0])
+    token = create_jwt_token(user.id)
     
     return AuthResponse(
         token=token,
         user={
-            "id": user[0],
-            "email": user[3],
-            "name": user[2],
+            "id": user.id,
+            "email": user.email,
+            "name": user.name,
             "auth_method": "email"
         }
     )
 
 @app.post("/api/auth/wallet", response_model=AuthResponse)
-async def login_with_wallet(request: WalletLoginRequest):
+async def login_with_wallet(request: WalletLoginRequest, db: Session = Depends(get_db)):
     """Login with Web3 wallet"""
-    conn = sqlite3.connect('language_learning.db')
-    cursor = conn.cursor()
-    
     # Check if user exists
-    cursor.execute(
-        "SELECT id, name FROM users WHERE wallet_address = ? AND auth_method = ?",
-        (request.wallet_address, request.wallet_type)
-    )
-    user = cursor.fetchone()
+    user = db.query(User).filter(
+        User.wallet_address == request.wallet_address,
+        User.auth_method == request.wallet_type
+    ).first()
     
     if not user:
         # Create new user for wallet
         wallet_name = f"{request.wallet_type.title()} User ({request.wallet_address[:6]}...{request.wallet_address[-4:]})"
-        cursor.execute(
-            "INSERT INTO users (name, auth_method, wallet_address) VALUES (?, ?, ?)",
-            (wallet_name, request.wallet_type, request.wallet_address)
+        user = User(
+            name=wallet_name,
+            auth_method=request.wallet_type,
+            wallet_address=request.wallet_address
         )
-        user_id = cursor.lastrowid
-        user_name = wallet_name
+        db.add(user)
+        db.commit()
+        db.refresh(user)
     else:
-        user_id = user[0]
-        user_name = user[1]
         # Update last login
-        cursor.execute(
-            "UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?",
-            (user_id,)
-        )
-    
-    conn.commit()
-    conn.close()
+        user.last_login = datetime.utcnow()
+        db.commit()
     
     # Create JWT token
-    token = create_jwt_token(user_id)
+    token = create_jwt_token(user.id)
     
     return AuthResponse(
         token=token,
         user={
-            "id": user_id,
-            "name": user_name,
+            "id": user.id,
+            "name": user.name,
             "auth_method": request.wallet_type,
             "wallet_address": request.wallet_address
         }
     )
 
 @app.post("/api/auth/social", response_model=AuthResponse)
-async def login_with_social(request: SocialLoginRequest):
+async def login_with_social(request: SocialLoginRequest, db: Session = Depends(get_db)):
     """Login with social provider (Google, Apple)"""
-    conn = sqlite3.connect('language_learning.db')
-    cursor = conn.cursor()
-    
     social_id = request.user_info.get("id") or request.user_info.get("sub")
     email = request.user_info.get("email")
     name = request.user_info.get("name") or f"{request.provider.title()} User"
     avatar = request.user_info.get("picture") or request.user_info.get("avatar")
     
     # Check if user exists
-    cursor.execute(
-        "SELECT id, name FROM users WHERE social_id = ? AND auth_method = ?",
-        (social_id, request.provider)
-    )
-    user = cursor.fetchone()
+    user = db.query(User).filter(
+        User.social_id == social_id,
+        User.auth_method == request.provider
+    ).first()
     
     if not user:
         # Create new user
-        cursor.execute(
-            "INSERT INTO users (email, name, auth_method, social_id, avatar) VALUES (?, ?, ?, ?, ?)",
-            (email, name, request.provider, social_id, avatar)
+        user = User(
+            email=email,
+            name=name,
+            auth_method=request.provider,
+            social_id=social_id,
+            avatar=avatar
         )
-        user_id = cursor.lastrowid
-        user_name = name
+        db.add(user)
+        db.commit()
+        db.refresh(user)
     else:
-        user_id = user[0]
-        user_name = user[1]
         # Update last login and avatar
-        cursor.execute(
-            "UPDATE users SET last_login = CURRENT_TIMESTAMP, avatar = ? WHERE id = ?",
-            (avatar, user_id)
-        )
-    
-    conn.commit()
-    conn.close()
+        user.last_login = datetime.utcnow()
+        user.avatar = avatar
+        db.commit()
     
     # Create JWT token
-    token = create_jwt_token(user_id)
+    token = create_jwt_token(user.id)
     
     return AuthResponse(
         token=token,
         user={
-            "id": user_id,
+            "id": user.id,
             "email": email,
-            "name": user_name,
+            "name": user.name,
             "auth_method": request.provider,
             "avatar": avatar
         }

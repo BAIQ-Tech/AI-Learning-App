@@ -4,11 +4,12 @@ Contains authentication-related functions and dependencies.
 """
 
 import os
-import sqlite3
 import jwt
+import hashlib
 from datetime import datetime, timedelta
 from fastapi import HTTPException, Depends, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from sqlalchemy.orm import Session
 from typing import Optional
 
 # Security
@@ -18,6 +19,23 @@ security = HTTPBearer()
 JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "your-jwt-secret-key")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_HOURS = 168  # 7 days
+
+def hash_password(password: str) -> str:
+    """Hash a password using SHA-256"""
+    return hashlib.sha256(password.encode()).hexdigest()
+
+def verify_password(password: str, hashed: str) -> bool:
+    """Verify a password against its hash"""
+    return hash_password(password) == hashed
+
+def create_jwt_token(user_id: int) -> str:
+    """Create a JWT token for a user"""
+    payload = {
+        "user_id": user_id,
+        "exp": datetime.utcnow() + timedelta(hours=JWT_EXPIRATION_HOURS),
+        "iat": datetime.utcnow()
+    }
+    return jwt.encode(payload, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
 
 def verify_jwt_token(token: str) -> Optional[dict]:
     """Verify and decode a JWT token"""
@@ -29,8 +47,26 @@ def verify_jwt_token(token: str) -> Optional[dict]:
     except jwt.InvalidTokenError:
         return None
 
-def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security), db: Session = Depends(None)) -> dict:
     """Get the current authenticated user"""
+    from backend.database import get_db
+    from backend.models import User
+    
+    if db is None:
+        # Get a database session if not provided
+        db_gen = get_db()
+        db = next(db_gen)
+        try:
+            return _get_user_from_token(credentials, db)
+        finally:
+            db.close()
+    else:
+        return _get_user_from_token(credentials, db)
+
+def _get_user_from_token(credentials: HTTPAuthorizationCredentials, db: Session) -> dict:
+    """Helper function to get user from token"""
+    from backend.models import User
+    
     token = credentials.credentials
     payload = verify_jwt_token(token)
     
@@ -41,15 +77,7 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    conn = sqlite3.connect('language_learning.db')
-    cursor = conn.cursor()
-    
-    cursor.execute(
-        "SELECT id, name, email, auth_method, wallet_address, avatar FROM users WHERE id = ?",
-        (payload["user_id"],)
-    )
-    user = cursor.fetchone()
-    conn.close()
+    user = db.query(User).filter(User.id == payload["user_id"]).first()
     
     if not user:
         raise HTTPException(
@@ -58,10 +86,10 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
         )
     
     return {
-        "id": user[0],
-        "name": user[1],
-        "email": user[2],
-        "auth_method": user[3],
-        "wallet_address": user[4],
-        "avatar": user[5]
+        "id": user.id,
+        "name": user.name,
+        "email": user.email,
+        "auth_method": user.auth_method,
+        "wallet_address": user.wallet_address,
+        "avatar": user.avatar
     }
