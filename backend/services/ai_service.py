@@ -4,7 +4,10 @@ import logging
 from typing import Dict, List, Optional, Tuple
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
-from backend.models import User, UserProgress, Conversation
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+from models import User, UserProgress, Conversation
 from backend.database import get_db
 
 logger = logging.getLogger(__name__)

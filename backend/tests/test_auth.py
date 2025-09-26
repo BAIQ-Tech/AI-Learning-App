@@ -4,7 +4,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from backend.main import app, get_db
 from backend.database import Base
-from backend.models import User
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+from models import User
 import json
 
 # Test database setup

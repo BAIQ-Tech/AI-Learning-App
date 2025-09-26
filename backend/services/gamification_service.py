@@ -3,8 +3,11 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func
-from backend.models import (
-    Achievement, UserAchievement, UserStreak, UserLevel, 
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+from models import (
+    Achievement, UserAchievement, UserStreak, UserLevel,
     Leaderboard, DailyChallenge, UserDailyChallenge, UserReward
 )
 from backend.database import get_db

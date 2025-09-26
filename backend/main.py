@@ -22,7 +22,11 @@ from dotenv import load_dotenv
 
 # Import database and models
 from backend.database import get_db, Base, engine, init_db
-from backend.models import (
+# Import models directly from models.py to avoid circular import
+import sys
+import os
+sys.path.insert(0, os.path.dirname(__file__))
+from models import (
     User, UserProgress, Conversation, Lesson, Story, Comment, StoryLike,
     Achievement, UserAchievement, UserStreak, UserLevel, Leaderboard,
     DailyChallenge, UserDailyChallenge, UserReward

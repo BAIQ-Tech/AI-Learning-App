@@ -3,8 +3,10 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 from sqlalchemy.orm import Session
 from sqlalchemy import func, desc, and_, or_
-from backend.models import User, UserProgress, Conversation
-from backend.models import UserLevel, UserStreak, UserAchievement
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+from models import User, UserProgress, Conversation, UserLevel, UserStreak, UserAchievement
 from backend.database import get_db
 
 logger = logging.getLogger(__name__)

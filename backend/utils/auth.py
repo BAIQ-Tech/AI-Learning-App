@@ -50,8 +50,11 @@ def verify_jwt_token(token: str) -> Optional[dict]:
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security), db: Session = Depends(None)) -> dict:
     """Get the current authenticated user"""
     from backend.database import get_db
-    from backend.models import User
-    
+    import sys
+    import os
+    sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+    from models import User
+
     if db is None:
         # Get a database session if not provided
         db_gen = get_db()
@@ -65,7 +68,10 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
 
 def _get_user_from_token(credentials: HTTPAuthorizationCredentials, db: Session) -> dict:
     """Helper function to get user from token"""
-    from backend.models import User
+    import sys
+    import os
+    sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+    from models import User
     
     token = credentials.credentials
     payload = verify_jwt_token(token)
