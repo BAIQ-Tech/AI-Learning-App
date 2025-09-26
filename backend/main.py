@@ -291,12 +291,16 @@ class StoryListResponse(BaseModel):
 @app.on_event("startup")
 async def startup_event():
     """Initialize database on startup"""
-    try:
-        init_db()
-        logger.info("Database initialized successfully")
-    except Exception as e:
-        logger.error(f"Failed to initialize database: {e}")
-        raise
+    # Only initialize database in development
+    if os.getenv("ENVIRONMENT") != "production":
+        try:
+            init_db()
+            logger.info("Database initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize database: {e}")
+            raise
+    else:
+        logger.info("Skipping database initialization in production")
 
 # Routes
 @app.get("/")
