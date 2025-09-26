@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { FaHome, FaComments, FaLanguage, FaBook, FaMicrophone, FaGamepad, FaNewspaper, FaSignInAlt } from 'react-icons/fa';
+import { FaHome, FaComments, FaLanguage, FaBook, FaMicrophone, FaGamepad, FaNewspaper, FaSignInAlt, FaBars, FaTimes } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { Language } from './types';
 import { languageApi } from './services/api';
@@ -41,6 +41,14 @@ const HeaderContent = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+
+  @media (max-width: 768px) {
+    padding: 0 16px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 12px;
+  }
 `;
 
 const HeaderRight = styled.div`
@@ -49,6 +57,32 @@ const HeaderRight = styled.div`
   gap: 16px;
   min-width: 200px;
   justify-content: flex-end;
+
+  @media (max-width: 768px) {
+    min-width: auto;
+    gap: 12px;
+  }
+`;
+
+const MobileMenuButton = styled.button`
+  display: none;
+  background: none;
+  border: none;
+  color: #4a5568;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+  }
+
+  @media (max-width: 768px) {
+    display: block;
+  }
 `;
 
 const LoginButton = styled.button`
@@ -74,6 +108,22 @@ const LoginButton = styled.button`
     background: #3182ce !important;
     transform: translateY(-1px);
   }
+
+  @media (max-width: 768px) {
+    padding: 10px 20px;
+    font-size: 13px;
+    min-width: 100px;
+    height: 40px;
+    margin-left: 8px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px 16px;
+    font-size: 12px;
+    min-width: 90px;
+    height: 36px;
+    margin-left: 4px;
+  }
 `;
 
 const AppTitle = styled.h1`
@@ -81,9 +131,17 @@ const AppTitle = styled.h1`
   font-size: 28px;
   font-weight: 700;
   margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
 `;
 
-const Navigation = styled.nav`
+const Navigation = styled.nav<{ isOpen?: boolean }>`
   display: flex;
   gap: 8px;
   justify-content: center;
@@ -92,6 +150,24 @@ const Navigation = styled.nav`
   padding: 16px 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(102, 126, 234, 0.1);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    position: fixed;
+    top: 100px;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    transform: ${({ isOpen }) => isOpen ? 'translateY(0)' : 'translateY(-100%)'};
+    opacity: ${({ isOpen }) => isOpen ? '1' : '0'};
+    visibility: ${({ isOpen }) => isOpen ? 'visible' : 'hidden'};
+    transition: all 0.3s ease-in-out;
+    z-index: 999;
+    padding: 20px;
+    gap: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+  }
 `;
 
 const NavLink = styled(Link)<{ active?: boolean }>`
@@ -150,6 +226,14 @@ const MainContent = styled.main`
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
+
+  @media (max-width: 768px) {
+    padding: 30px 16px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px 12px;
+  }
 `;
 
 const WelcomeSection = styled.div`
@@ -163,6 +247,16 @@ const WelcomeTitle = styled.h2`
   margin-bottom: 24px;
   text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   font-weight: 700;
+
+  @media (max-width: 768px) {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
 `;
 
 const WelcomeSubtitle = styled.p`
@@ -172,6 +266,17 @@ const WelcomeSubtitle = styled.p`
   margin: 0 auto 32px;
   line-height: 1.7;
   font-weight: 400;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 16px;
+    margin-bottom: 20px;
+    max-width: 100%;
+  }
 `;
 
 const FeatureGrid = styled.div`
@@ -182,6 +287,18 @@ const FeatureGrid = styled.div`
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 32px 0;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
 `;
 
 const FeatureCard = styled.div`
@@ -195,7 +312,7 @@ const FeatureCard = styled.div`
   transition: all 0.4s ease;
   position: relative;
   overflow: hidden;
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -207,16 +324,27 @@ const FeatureCard = styled.div`
     opacity: 0;
     transition: opacity 0.3s ease;
   }
-  
+
   &:hover {
     background: rgba(255, 255, 255, 0.25);
     border-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    
+
     &::before {
       opacity: 1;
     }
+  }
+
+  @media (max-width: 768px) {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 20px 16px;
+    border-radius: 12px;
+    min-height: 120px;
   }
 `;
 
@@ -226,6 +354,16 @@ const FeatureIcon = styled.div`
   margin-bottom: 20px;
   position: relative;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    font-size: 40px;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
 `;
 
 const FeatureTitle = styled.h3`
@@ -235,6 +373,16 @@ const FeatureTitle = styled.h3`
   margin-bottom: 12px;
   position: relative;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
 `;
 
 const FeatureDescription = styled.p`
@@ -243,6 +391,11 @@ const FeatureDescription = styled.p`
   line-height: 1.6;
   position: relative;
   z-index: 1;
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+    line-height: 1.5;
+  }
 `;
 
 const LanguageGrid = styled.div`
@@ -253,13 +406,17 @@ const LanguageGrid = styled.div`
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 24px 0;
   }
-  
+
   @media (max-width: 480px) {
     grid-template-columns: 1fr;
+    gap: 12px;
+    margin: 20px 0;
   }
 `;
 
@@ -272,11 +429,25 @@ const LanguageCard = styled.div<{ selected?: boolean }>`
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  
+
   &:hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 14px;
+    border-radius: 8px;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 `;
 
@@ -297,22 +468,43 @@ const PageContainer = styled.div`
   border-radius: 16px;
   padding: 32px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    padding: 24px;
+    border-radius: 12px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px;
+    border-radius: 8px;
+  }
 `;
 
 const PageTitle = styled.h2`
   color: #2d3748;
   margin-bottom: 24px;
   text-align: center;
+  font-size: 28px;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
 `;
 
 
-const NavigationBar: React.FC = () => {
+const NavigationBar: React.FC<{ isOpen: boolean }> = ({ isOpen }) => {
   const location = useLocation();
   const currentPath = location.pathname;
   const { t } = useTranslation();
 
   return (
-    <Navigation>
+    <Navigation isOpen={isOpen}>
       <NavLink to="/" active={currentPath === '/'}>
         <FaHome /> {t('navigation.home')}
       </NavLink>
@@ -342,6 +534,7 @@ const HeaderComponent: React.FC = () => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [showLogin, setShowLogin] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   console.log('Header Debug:', { user, showLogin });
 
@@ -360,10 +553,13 @@ const HeaderComponent: React.FC = () => {
                 {t('auth.signIn')}
               </LoginButton>
             )}
+            <MobileMenuButton onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
+            </MobileMenuButton>
           </HeaderRight>
         </HeaderContent>
       </HeaderContainer>
-      <NavigationBar />
+      <NavigationBar isOpen={isMobileMenuOpen} />
       {showLogin && <Login isOpen={showLogin} onClose={() => setShowLogin(false)} />}
     </>
   );

@@ -38,6 +38,20 @@ const LoginModal = styled.div`
       transform: translateY(0);
     }
   }
+
+  @media (max-width: 768px) {
+    padding: 30px 25px;
+    border-radius: 16px;
+    max-width: 90vw;
+    margin: 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 24px 20px;
+    border-radius: 12px;
+    max-width: 95vw;
+    margin: 10px;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -57,6 +71,19 @@ const CloseButton = styled.button`
     background: #f7fafc;
     color: #2d3748;
   }
+
+  @media (max-width: 768px) {
+    top: 16px;
+    right: 16px;
+    padding: 8px;
+  }
+
+  @media (max-width: 480px) {
+    top: 12px;
+    right: 12px;
+    padding: 10px;
+    font-size: 20px;
+  }
 `;
 
 const LoginTitle = styled.h2`
@@ -65,6 +92,16 @@ const LoginTitle = styled.h2`
   margin-bottom: 30px;
   font-size: 28px;
   font-weight: 600;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
 `;
 
 const LoginForm = styled.form`
@@ -100,6 +137,11 @@ const Input = styled.input`
 
   &::placeholder {
     color: #a0aec0;
+  }
+
+  @media (max-width: 480px) {
+    padding: 14px 16px;
+    font-size: 16px; /* Prevent zoom on iOS */
   }
 `;
 
@@ -145,6 +187,12 @@ const LoginButton = styled.button`
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px;
+    font-size: 16px;
+    min-height: 48px; /* Better touch target */
   }
 `;
 
@@ -195,6 +243,12 @@ const SocialButton = styled.button`
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
+  }
+
+  @media (max-width: 480px) {
+    padding: 14px;
+    min-height: 44px; /* Better touch target */
+    font-size: 16px;
   }
 `;
 
