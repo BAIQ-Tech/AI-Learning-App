@@ -69,7 +69,7 @@ def init_db():
 # Add connection event listeners for PostgreSQL
 if "postgresql" in SQLALCHEMY_DATABASE_URL:
     @event.listens_for(engine, "connect")
-    def set_sqlite_pragma(dbapi_connection, connection_record):
+    def set_postgresql_connection_params(dbapi_connection, connection_record):
         """Set PostgreSQL connection parameters"""
         with dbapi_connection.cursor() as cursor:
             cursor.execute("SET timezone TO 'UTC'")
