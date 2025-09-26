@@ -287,8 +287,7 @@ async def health_check():
     """Health check endpoint"""
     return {
         "status": "healthy",
-        "message": "AI-Learning API is running",
-        "timestamp": datetime.utcnow().isoformat()
+        "message": "AI-Learning API is running"
     }
 
 # Authentication Endpoints
