@@ -149,32 +149,7 @@ async def general_exception_handler(request: Request, exc: Exception):
         content={"detail": "Internal server error", "error_code": "INTERNAL_ERROR"}
     )
 
-# Health check endpoint
-@app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    try:
-        # Test database connection
-        db = next(get_db())
-        db.execute("SELECT 1")
-        db.close()
-        
-        return {
-            "status": "healthy", 
-            "timestamp": datetime.utcnow().isoformat(),
-            "database": "connected",
-            "version": "1.0.0"
-        }
-    except Exception as e:
-        logger.error(f"Health check failed: {e}")
-        return JSONResponse(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            content={
-                "status": "unhealthy",
-                "timestamp": datetime.utcnow().isoformat(),
-                "error": str(e)
-            }
-        )
+# Health check endpoint will be defined later
 
 @app.get("/metrics")
 async def get_metrics():
