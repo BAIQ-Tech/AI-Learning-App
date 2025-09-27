@@ -302,18 +302,45 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       const account = accounts[0];
       const message = `Sign in to AI-Learning with your wallet: ${Date.now()}`;
-      
-      await window.ethereum.request({
+
+      const signature = await window.ethereum.request({
         method: 'personal_sign',
         params: [message, account],
       });
 
-      return {
-        id: account,
-        name: `MetaMask User (${account.slice(0, 6)}...${account.slice(-4)})`,
+      // Call backend wallet login endpoint
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${apiUrl}/api/auth/wallet`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          wallet_address: account,
+          signature,
+          message,
+          wallet_type: 'metamask'
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || 'MetaMask authentication failed');
+      }
+
+      const data = await response.json();
+      const userData: User = {
+        id: data.user.id.toString(),
+        name: data.user.name,
         authMethod: 'metamask',
         walletAddress: account,
       };
+
+      console.log('MetaMask authentication successful:', userData);
+      setUser(userData);
+      localStorage.setItem('authToken', data.token);
+      localStorage.setItem('ai-learning-user', JSON.stringify(userData));
+
+      return userData;
+
     } catch (error) {
       throw new Error('MetaMask connection failed');
     }
@@ -651,12 +678,49 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await window.solana.connect();
       const publicKey = response.publicKey.toString();
 
-      return {
-        id: publicKey,
-        name: `Phantom User (${publicKey.slice(0, 6)}...${publicKey.slice(-4)})`,
+      // Create message to sign
+      const message = `Sign in to AI-Learning with your wallet: ${Date.now()}`;
+
+      // Sign the message with Phantom
+      const encodedMessage = new TextEncoder().encode(message);
+      const signature = await window.solana.signMessage(encodedMessage, 'utf8');
+
+      // Convert signature to base64 for backend
+      const signatureBase64 = btoa(String.fromCharCode(...signature.signature));
+
+      // Call backend wallet login endpoint
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      const backendResponse = await fetch(`${apiUrl}/api/auth/wallet`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          wallet_address: publicKey,
+          signature: signatureBase64,
+          message,
+          wallet_type: 'phantom'
+        }),
+      });
+
+      if (!backendResponse.ok) {
+        const errorData = await backendResponse.json().catch(() => ({}));
+        throw new Error(errorData.detail || 'Phantom Wallet authentication failed');
+      }
+
+      const data = await backendResponse.json();
+      const userData: User = {
+        id: data.user.id.toString(),
+        name: data.user.name,
         authMethod: 'phantom',
         walletAddress: publicKey,
       };
+
+      console.log('Phantom Wallet authentication successful:', userData);
+      setUser(userData);
+      localStorage.setItem('authToken', data.token);
+      localStorage.setItem('ai-learning-user', JSON.stringify(userData));
+
+      return userData;
+
     } catch (error) {
       throw new Error('Phantom Wallet connection failed');
     }
