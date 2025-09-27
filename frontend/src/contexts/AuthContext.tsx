@@ -193,12 +193,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
                 const data = await backendResponse.json();
                 localStorage.setItem('authToken', data.token);
-                
+
                 resolve({
-                  id: payload.sub,
-                  email: payload.email,
-                  name: payload.name,
-                  avatar: payload.picture,
+                  id: data.user.id.toString(),
+                  email: data.user.email,
+                  name: data.user.name,
+                  avatar: data.user.avatar,
                   authMethod: 'google',
                 });
               } catch (error) {
@@ -266,9 +266,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               localStorage.setItem('authToken', data.token);
 
               resolve({
-                id: response.user,
-                email: response.email,
-                name: response.name ? `${response.name.firstName} ${response.name.lastName}` : 'Apple User',
+                id: data.user.id.toString(),
+                email: data.user.email,
+                name: data.user.name,
                 authMethod: 'apple',
               });
             } catch (error) {
