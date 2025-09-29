@@ -670,12 +670,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const loginWithPhantom = async (): Promise<User> => {
-    if (typeof window === 'undefined' || !window.solana?.isPhantom) {
-      throw new Error('Phantom Wallet not installed');
+    if (typeof window === 'undefined') {
+      throw new Error('Window is not available (server-side rendering)');
+    }
+    
+    if (!window.solana) {
+      throw new Error('Phantom Wallet not detected. Please install Phantom Wallet extension.');
+    }
+    
+    if (!window.solana.isPhantom) {
+      throw new Error('Detected Solana wallet is not Phantom. Please use Phantom Wallet.');
     }
 
     try {
+      // Connect to Phantom Wallet
       const response = await window.solana.connect();
+      if (!response || !response.publicKey) {
+        throw new Error('Failed to connect to Phantom Wallet - no public key received');
+      }
+      
       const publicKey = response.publicKey.toString();
 
       // Create message to sign
@@ -683,10 +696,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       // Sign the message with Phantom
       const encodedMessage = new TextEncoder().encode(message);
-      const signature = await window.solana.signMessage(encodedMessage, 'utf8');
+      const signedMessage = await window.solana.signMessage(encodedMessage);
+      
+      if (!signedMessage || !signedMessage.signature) {
+        throw new Error('Failed to sign message - no signature received');
+      }
 
       // Convert signature to base64 for backend
-      const signatureBase64 = btoa(String.fromCharCode(...signature.signature));
+      const signatureBase64 = btoa(String.fromCharCode(...signedMessage.signature));
 
       // Call backend wallet login endpoint
       const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
@@ -721,8 +738,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       return userData;
 
-    } catch (error) {
-      throw new Error('Phantom Wallet connection failed');
+    } catch (error: any) {
+      console.error('Phantom Wallet Error:', error);
+      
+      // Provide specific error messages
+      if (error.message?.includes('User rejected')) {
+        throw new Error('Connection rejected. Please approve the connection request in Phantom Wallet.');
+      } else if (error.message?.includes('Failed to sign')) {
+        throw new Error('Signature failed. Please approve the signature request in Phantom Wallet.');
+      } else if (error.message?.includes('Failed to connect')) {
+        throw new Error('Connection failed. Please try again or check if Phantom Wallet is unlocked.');
+      } else if (error.message?.includes('authentication failed')) {
+        throw new Error('Authentication failed. Please try again.');
+      } else {
+        throw new Error(`Phantom Wallet error: ${error.message || 'Unknown error occurred'}`);
+      }
     }
   };
 
